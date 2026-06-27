@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Causes of Global Warming · Global Warming Explorer</title>
-<meta name="description" content="The ranked list of what really causes global warming — energy, transport, industry, agriculture and waste — explained simply.">
+<title>Check In With Your Teacher · Global Warming Explorer</title>
+<meta name="description" content="Send your lesson progress to your teacher via a free, pre-filled GitHub check-in — no account needed on this site, no data collected here.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -22,9 +22,9 @@
       </a>
       <div class="nav-desktop">
         <a class="nav-link" href="index.html">Home</a>
-        <a class="nav-link" href="course.html">Course</a>
+        <a class="nav-link is-active" href="course.html">Course</a>
         <div class="nav-group">
-          <a class="nav-link is-active" href="what-is-global-warming.html" aria-haspopup="true">Learn ▾</a>
+          <a class="nav-link" href="what-is-global-warming.html" aria-haspopup="true">Learn ▾</a>
           <div class="nav-pop"><a href="what-is-global-warming.html">What Is Global Warming?</a>
 <a href="causes.html">Causes</a>
 <a href="effects.html">Effects</a>
@@ -88,59 +88,50 @@
         <path d="M-50,380 C280,420 480,360 710,400 C900,430 1060,390 1250,410"/>
       </g>
     </svg>
-    <div class="hero-inner">
+    <div class="hero-inner hero-inner--narrow">
       <div>
-        <p class="eyebrow">Learn · Source</p>
-        <h1>What's actually causing global warming?</h1>
-        <p class="lede">Almost all of the extra greenhouse gas behind today's warming comes from human activity since the 1800s &mdash; mainly the everyday business of making electricity, growing food, manufacturing things, and getting around.</p>
-        <div class="hero-ctas"><a href="effects.html" class="btn btn-primary">Next: the effects →</a></div>
+        <p class="eyebrow">Guided course · Check in</p>
+        <h1>Check in with your teacher</h1>
+        <p class="lede">This sends your name and lesson progress to your teacher as a GitHub Issue &mdash; free, and nothing leaves this page until you choose to submit it on GitHub yourself.</p>
+        <div class="hero-ctas"><a href="course.html" class="btn btn-ghost">← Back to course</a></div>
       </div>
-      <div class="hero-media reveal"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Factory_Emitting_Smoke.jpg?width=900" alt="Industrial smokestacks emitting smoke into the sky"><span class="credit">Industrial emissions · via Wikimedia Commons</span></div>
+      
     </div>
-    <div class="readout"><div class="readout-inner"><div class="readout-cell"><span class="ro-label">Share of emissions: energy & transport</span><span class="ro-value js-counter tone-warm" data-target="73" data-decimals="0" data-prefix="" data-suffix="%+">0</span></div><div class="readout-cell"><span class="ro-label">Share from agriculture & land use</span><span class="ro-value js-counter" data-target="18" data-decimals="0" data-prefix="" data-suffix="%">0</span></div><div class="readout-cell"><span class="ro-label">Years of rapid acceleration</span><span class="ro-value js-counter" data-target="60" data-decimals="0" data-prefix="" data-suffix="+">0</span></div></div></div>
+    <div class="readout"><div class="readout-inner"><div class="readout-cell"><span class="ro-label">Cost</span><span class="ro-value js-counter tone-cool" data-target="0" data-decimals="0" data-prefix="₦" data-suffix="">0</span></div><div class="readout-cell"><span class="ro-label">Where it goes</span><span class="ro-value">GitHub Issues</span></div></div></div>
   </section>
 
 <section class="section">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow">Ranked by scale</p>
-      <h2>The big sources, in order of how much they matter</h2>
-      <p class="lede">This list is genuinely a ranking &mdash; it follows roughly how much each sector contributes to global human-caused greenhouse gas emissions, based on international energy and climate accounting.</p>
+  <div class="wrap" style="max-width:640px;">
+    <div class="callout callout--alert reveal" id="checkin-setup-warning">
+      <span class="callout-label">Setup needed (for the site owner)</span>
+      <p>This check-in form isn't connected to a repo yet. Open <code>js/checkin.js</code> and change <code>GITHUB_REPO</code> to your real <code>owner/repo-name</code>, then this message disappears automatically.</p>
     </div>
-    <ol class="numbered-list reveal">
-      <li>
-        <h3>Burning fossil fuels for electricity &amp; heat</h3>
-        <p>Coal, oil and natural gas power plants are the single largest source. Every kilowatt-hour generated this way releases CO2 that took millions of years to lock underground.</p>
-      </li>
-      <li>
-        <h3>Transport</h3>
-        <p>Petrol and diesel cars, motorcycles, trucks, ships and planes all burn fossil fuel directly. Road transport alone is a major and fast-growing slice of this.</p>
-      </li>
-      <li>
-        <h3>Industry &amp; manufacturing</h3>
-        <p>Making cement, steel, plastics and chemicals both burns fuel for heat and, in some processes (like cement), releases CO2 as a direct by-product of the chemistry itself.</p>
-      </li>
-      <li>
-        <h3>Agriculture &amp; land use</h3>
-        <p>Clearing forests removes carbon-storing trees and often releases the carbon stored in soil. Livestock farming adds methane; fertiliser use adds nitrous oxide &mdash; both far more potent than CO2 molecule-for-molecule.</p>
-      </li>
-      <li>
-        <h3>Waste</h3>
-        <p>Organic waste rotting in landfills without oxygen produces methane. It's a smaller slice of the total, but one of the easiest to shrink quickly through better waste management and recycling.</p>
-      </li>
-    </ol>
 
     <div class="callout callout--note reveal">
-      <span class="callout-label">A note on speed, not just scale</span>
-      <p>It isn't only how much we emit &mdash; it's how fast. Natural processes (plants, oceans, rock weathering) absorb CO2 over centuries to millennia. Humans have added a comparable amount in a little over a century, which is why concentrations have climbed roughly 100 times faster than at the end of the last ice age.</p>
+      <span class="callout-label">Before you start</span>
+      <p>You'll need a free GitHub account to actually submit this (most students who code already have one). Consider using just your first name and last initial &mdash; e.g. "Ada O." &mdash; rather than your full name, since this can be visible publicly.</p>
     </div>
 
-    <div class="fact-strip reveal">
-      <div class="fact"><div class="fv">424.6</div><div class="fl">Mauna Loa annual CO2 average, 2024 (ppm)</div></div>
-      <div class="fact"><div class="fv">430.5</div><div class="fl">Record monthly peak, May 2025 (ppm)</div></div>
-      <div class="fact"><div class="fv">2.6</div><div class="fl">Average annual ppm increase, 2015&ndash;2024</div></div>
-    </div>
-    <div class="topic-pager"><a class="pager-link prev" href="what-is-global-warming.html"><span class="pl-dir">← Previous</span><div class="pl-title">What Is Global Warming?</div></a><a class="pager-link next" href="effects.html"><span class="pl-dir">Next →</span><div class="pl-title">Effects, Worldwide and at Home</div></a></div>
+    <form id="checkin-form" class="tool-panel reveal">
+      <div class="field">
+        <label for="checkin-name">Your name (or first name + initial)</label>
+        <input type="text" id="checkin-name" placeholder="e.g. Ada O." required>
+      </div>
+
+      <div class="checkin-progress-box">
+        <strong style="font-size:.9rem;"><span id="checkin-progress-count">0</span> of 8 lessons complete on this device</strong>
+        <ul id="checkin-progress-list"></ul>
+      </div>
+
+      <div class="field">
+        <label for="checkin-note">Anything you want to tell your teacher? (optional)</label>
+        <textarea id="checkin-note" placeholder="e.g. I found Lesson 3 really interesting!"></textarea>
+      </div>
+
+      <button type="submit" id="checkin-submit" class="btn btn-primary" style="width:100%;justify-content:center;">Open my check-in on GitHub →</button>
+    </form>
+
+    <p id="checkin-result" class="callout callout--try" style="margin-top:18px;"></p>
   </div>
 </section>
 
@@ -193,6 +184,7 @@
     </div>
   </footer>
 <script src="js/main.js"></script>
-
+<script src="js/progress.js"></script>
+<script src="js/checkin.js"></script>
 </body>
 </html>

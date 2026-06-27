@@ -65,6 +65,8 @@
       </div>
       <div class="mm-section"><h4>Guided course</h4>
         <a href="course.html">8-Lesson Course</a>
+        <a href="checkin.html">Check In</a>
+        <a href="class-dashboard.html">Class Dashboard</a>
         <a href="for-teachers.html">For Teachers</a>
         <a href="certificate.html">Certificate</a>
       </div>
@@ -130,8 +132,18 @@
       </div>
       <div class="card">
         <div class="ico">🔁</div><h3>Progress, honestly</h3>
-        <p>"Mark complete" buttons save to each device's browser, not a shared gradebook &mdash; great for self-paced learning, but for a class roster you'll still want your own tracking sheet.</p>
+        <p>"Mark complete" buttons save to each device's browser, not a shared gradebook &mdash; great for self-paced learning, but for a class roster you'll still want the check-in below.</p>
       </div>
+    </div>
+
+    <div class="prose reveal" style="margin-top:40px;">
+      <h2>Setting up class check-ins (free, no card, GitHub-only)</h2>
+      <p>Students can send their progress to you via the <a href="checkin.html">Check In</a> page &mdash; it opens a pre-filled GitHub Issue in your repo with their name and completed lessons. They click "Submit new issue" themselves; nothing is collected on the site, and you need no backend or paid service at all.</p>
+      <ol>
+        <li>Check-ins land in your repo's <strong>Issues</strong> tab, and automatically flow into the <a href="class-dashboard.html">Class Dashboard</a> &mdash; a free GitHub Action rebuilds it whenever an Issue changes (and every 6 hours as a fallback). Nothing to configure beyond the repo itself.</li>
+        <li>Decide public vs. private for the repo. If your students are minors, either keep the repo private, or ask them to check in with a first name + initial instead of a full name &mdash; the check-in page already nudges them toward that.</li>
+        <li>If the dashboard ever looks stuck, open the repo's <strong>Actions</strong> tab and check the "Update Class Dashboard" workflow run, or trigger it manually from there.</li>
+      </ol>
     </div>
   </div>
 </section>
@@ -166,6 +178,8 @@
         <h5>Connect</h5>
         <ul>
           <li><a href="course.html">8-Lesson Course</a></li>
+          <li><a href="checkin.html">Check In</a></li>
+          <li><a href="class-dashboard.html">Class Dashboard</a></li>
           <li><a href="for-teachers.html">For Teachers</a></li>
           <li><a href="data-explorer.html">Data Explorer</a></li>
           <li><a href="quiz.html">Quiz</a></li>
@@ -173,7 +187,7 @@
           <li><a href="about.html">About Babatunde</a></li>
           <li><a href="https://github.com/babatundeawo" target="_blank" rel="noopener">GitHub — babatundeawo</a></li>
           <li><a href="https://github.com/techbaseng" target="_blank" rel="noopener">GitHub — Techbase</a></li>
-          <li><a href="https://techbasengr.com.ng/" target="_blank" rel="noopener">techbasengr.com.ng</a></li>
+          <li><a href="https://babatundeawo.github.io/" target="_blank" rel="noopener">My Portfolio</a></li>
         </ul>
       </div>
     </div>

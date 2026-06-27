@@ -1,0 +1,49 @@
+name: Update Class Dashboard
+
+# Rebuilds roster-data.json from check-in Issues whenever an Issue changes,
+# on a schedule as a fallback, and on demand. Free on public repos — no
+# secrets to configure, GITHUB_TOKEN is provided automatically.
+
+on:
+  issues:
+    types: [opened, edited, closed, reopened, deleted]
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  issues: read
+
+concurrency:
+  group: update-dashboard
+  cancel-in-progress: true
+
+jobs:
+  build-roster:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Build roster-data.json from check-in Issues
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/build_roster.py
+
+      - name: Commit roster-data.json if it changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add roster-data.json
+          if git diff --staged --quiet; then
+            echo "No changes to roster-data.json — nothing to commit."
+          else
+            git commit -m "Update class dashboard data [skip ci]"
+            git push
+          fi

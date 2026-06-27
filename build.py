@@ -101,6 +101,8 @@ def nav_html(active):
       </div>
       <div class="mm-section"><h4>Guided course</h4>
         <a href="course.html">8-Lesson Course</a>
+        <a href="checkin.html">Check In</a>
+        <a href="class-dashboard.html">Class Dashboard</a>
         <a href="for-teachers.html">For Teachers</a>
         <a href="certificate.html">Certificate</a>
       </div>
@@ -147,6 +149,8 @@ FOOTER_HTML = """<footer class="site-footer">
         <h5>Connect</h5>
         <ul>
           <li><a href="course.html">8-Lesson Course</a></li>
+          <li><a href="checkin.html">Check In</a></li>
+          <li><a href="class-dashboard.html">Class Dashboard</a></li>
           <li><a href="for-teachers.html">For Teachers</a></li>
           <li><a href="data-explorer.html">Data Explorer</a></li>
           <li><a href="quiz.html">Quiz</a></li>
@@ -154,7 +158,7 @@ FOOTER_HTML = """<footer class="site-footer">
           <li><a href="about.html">About Babatunde</a></li>
           <li><a href="https://github.com/babatundeawo" target="_blank" rel="noopener">GitHub — babatundeawo</a></li>
           <li><a href="https://github.com/techbaseng" target="_blank" rel="noopener">GitHub — Techbase</a></li>
-          <li><a href="https://techbasengr.com.ng/" target="_blank" rel="noopener">techbasengr.com.ng</a></li>
+          <li><a href="https://babatundeawo.github.io/" target="_blank" rel="noopener">My Portfolio</a></li>
         </ul>
       </div>
     </div>
@@ -392,7 +396,7 @@ home_body = """
         <ul style="margin-top:14px;">
           <li><a href="https://github.com/babatundeawo" target="_blank" rel="noopener">→ github.com/babatundeawo</a></li>
           <li><a href="https://github.com/techbaseng" target="_blank" rel="noopener">→ github.com/techbaseng</a></li>
-          <li><a href="https://techbasengr.com.ng/" target="_blank" rel="noopener">→ techbasengr.com.ng</a></li>
+          <li><a href="https://babatundeawo.github.io/" target="_blank" rel="noopener">→ My Portfolio</a></li>
         </ul>
       </div>
     </div>
@@ -1086,6 +1090,13 @@ data_body = """
 <section class="section">
   <div class="wrap">
     <div class="chart-card reveal">
+      <h3>🌤️ Today's weather</h3>
+      <p class="chart-meta">Live, right now &mdash; defaults to Ibadan, or search any city</p>
+      <div id="weather-mount"></div>
+      <p class="source-note">Weather data: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> (free, no key, CC BY 4.0). One important distinction: this is <strong>weather</strong> &mdash; today, one place. The charts below are <strong>climate</strong> &mdash; decades, the whole planet. A hot or rainy day here says nothing about global warming on its own; see <a href="what-is-global-warming.html">Weather vs. Climate</a>.</p>
+    </div>
+
+    <div class="chart-card reveal">
       <h3>Atmospheric CO2 is still climbing</h3>
       <p class="chart-meta">Annual mean CO2 concentration, Mauna Loa Observatory, Hawaii (parts per million)</p>
       <div class="chart-wrap"><canvas id="chart-co2"></canvas></div>
@@ -1127,11 +1138,11 @@ data_body = """
 page(
     filename="data-explorer.html",
     title="Data Explorer",
-    description="Real, sourced climate data visualised: the CO2 curve, the warmest years on record, renewables growth, and Nigeria's 2025 flood numbers.",
+    description="Live weather plus real, sourced climate data: the CO2 curve, the warmest years on record, renewables growth, and Nigeria's 2025 flood numbers.",
     active="data",
     hero_html=data_hero,
     body_html=data_body,
-    extra_scripts='<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>\n<script src="js/charts.js"></script>',
+    extra_scripts='<script src="js/weather.js"></script>\n<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>\n<script src="js/charts.js"></script>',
 )
 
 # =========================================================
@@ -1263,8 +1274,8 @@ about_hero = hero_block(
     eyebrow="Meet your guide",
     h1="Babatunde Ayoola Awoyemi",
     lede="Physicist, STEM educator, and Lead Consultant at Techbase Consultant Services in Ibadan, Nigeria &mdash; and the person who built this whole guide, twice.",
-    ctas_html='<a href="https://github.com/babatundeawo" class="btn btn-primary" target="_blank" rel="noopener">GitHub →</a>'
-              '<a href="https://techbasengr.com.ng/" class="btn btn-ghost" target="_blank" rel="noopener">Techbase site →</a>',
+    ctas_html='<a href="https://babatundeawo.github.io/" class="btn btn-primary" target="_blank" rel="noopener">View my full portfolio →</a>'
+              '<a href="https://github.com/babatundeawo" class="btn btn-ghost" target="_blank" rel="noopener">GitHub →</a>',
     media_html="", readout_cells=[
         {"label": "Base", "value": "Ibadan", "decimals": 0, "suffix": ", Nigeria", "tone": ""},
         {"label": "Field", "value": "Atmospheric", "decimals": 0, "suffix": " Physics", "tone": "cool"},
@@ -1297,10 +1308,12 @@ about_body = """
         <p>Outside of climate and physics, I run <strong>Techbase Consultant Services</strong>, where I work across IT consultancy, web development, robotics, and &mdash; closest to my heart &mdash; STEM education for young people across Nigeria. I also teach and help build curriculum at my church, and spend a fair amount of free time on photography, football, and long drives.</p>
         <h2 style="margin-top:1.2em;">A few other things I've built</h2>
         <div class="project-strip">
-          <a href="https://babatundeawo.github.io/daily-echo" target="_blank" rel="noopener"><span>Daily Echo &mdash; AI-powered devotional &amp; content app</span><span>↗</span></a>
-          <a href="https://techbaseng.github.io" target="_blank" rel="noopener"><span>Techbase STEM Academy &mdash; courses, Scratch &amp; robotics lessons</span><span>↗</span></a>
+          <a href="https://babatundeawo.github.io/ai-prompt-library/" target="_blank" rel="noopener"><span>AI Prompt Library &mdash; 200+ curated, searchable prompts</span><span>↗</span></a>
+          <a href="https://babatundeawo.github.io/ai-studio-android-guide/" target="_blank" rel="noopener"><span>AI Studio Android Guide</span><span>↗</span></a>
           <a href="https://babatundeawo.github.io/career-engine-guide/" target="_blank" rel="noopener"><span>Personal AI Career Engine &mdash; a guided career-building system</span><span>↗</span></a>
+          <a href="https://techbaseng.github.io/" target="_blank" rel="noopener"><span>Techbase STEM Academy &mdash; courses, Scratch &amp; robotics lessons</span><span>↗</span></a>
         </div>
+        <a href="https://babatundeawo.github.io/" target="_blank" rel="noopener" class="btn btn-amber" style="margin-top:20px;width:100%;justify-content:center;">🔗 See everything I've built &mdash; My Portfolio →</a>
         <div class="callout callout--note" style="margin-top:28px;">
           <span class="callout-label">A note for whoever's reading this</span>
           <p>If you're a teacher, student, or just someone who stumbled in here &mdash; this site is free to use, copy and remix for learning. If it helps you explain climate change to someone else, it's done its job.</p>
@@ -1580,7 +1593,11 @@ course_body = """
     <div class="course-progress-wrap reveal">
       <div class="course-progress-top">
         <span><span id="course-progress-count">0</span> of 8 lessons complete</span>
-        <button class="btn btn-ghost btn-sm" id="reset-progress-btn" type="button">Reset progress</button>
+        <span style="display:flex;gap:8px;flex-wrap:wrap;">
+          <a href="checkin.html" class="btn btn-amber btn-sm">Check in with teacher →</a>
+          <a href="class-dashboard.html" class="btn btn-ghost btn-sm">View class dashboard →</a>
+          <button class="btn btn-ghost btn-sm" id="reset-progress-btn" type="button">Reset progress</button>
+        </span>
       </div>
       <div class="course-progress-track"><span id="course-progress-bar"></span></div>
     </div>
@@ -1651,8 +1668,18 @@ teachers_body = """
       </div>
       <div class="card">
         <div class="ico">🔁</div><h3>Progress, honestly</h3>
-        <p>"Mark complete" buttons save to each device's browser, not a shared gradebook &mdash; great for self-paced learning, but for a class roster you'll still want your own tracking sheet.</p>
+        <p>"Mark complete" buttons save to each device's browser, not a shared gradebook &mdash; great for self-paced learning, but for a class roster you'll still want the check-in below.</p>
       </div>
+    </div>
+
+    <div class="prose reveal" style="margin-top:40px;">
+      <h2>Setting up class check-ins (free, no card, GitHub-only)</h2>
+      <p>Students can send their progress to you via the <a href="checkin.html">Check In</a> page &mdash; it opens a pre-filled GitHub Issue in your repo with their name and completed lessons. They click "Submit new issue" themselves; nothing is collected on the site, and you need no backend or paid service at all.</p>
+      <ol>
+        <li>Check-ins land in your repo's <strong>Issues</strong> tab, and automatically flow into the <a href="class-dashboard.html">Class Dashboard</a> &mdash; a free GitHub Action rebuilds it whenever an Issue changes (and every 6 hours as a fallback). Nothing to configure beyond the repo itself.</li>
+        <li>Decide public vs. private for the repo. If your students are minors, either keep the repo private, or ask them to check in with a first name + initial instead of a full name &mdash; the check-in page already nudges them toward that.</li>
+        <li>If the dashboard ever looks stuck, open the repo's <strong>Actions</strong> tab and check the "Update Class Dashboard" workflow run, or trigger it manually from there.</li>
+      </ol>
     </div>
   </div>
 </section>
@@ -1709,3 +1736,105 @@ page(
 )
 
 print("COURSE MODULE BUILT")
+
+# =========================================================
+# CHECK-IN (free, GitHub-native classroom check-in via prefilled Issue)
+# =========================================================
+checkin_hero = hero_block(
+    eyebrow="Guided course · Check in",
+    h1="Check in with your teacher",
+    lede="This sends your name and lesson progress to your teacher as a GitHub Issue &mdash; free, and nothing leaves this page until you choose to submit it on GitHub yourself.",
+    ctas_html='<a href="course.html" class="btn btn-ghost">← Back to course</a>',
+    media_html="", readout_cells=[
+        {"label": "Cost", "value": "0", "decimals": 0, "prefix": "₦", "suffix": "", "tone": "cool"},
+        {"label": "Where it goes", "value": "GitHub", "decimals": 0, "suffix": " Issues", "tone": ""},
+    ],
+    narrow=True,
+)
+
+checkin_body = """
+<section class="section">
+  <div class="wrap" style="max-width:640px;">
+    <div class="callout callout--alert reveal" id="checkin-setup-warning">
+      <span class="callout-label">Setup needed (for the site owner)</span>
+      <p>This check-in form isn't connected to a repo yet. Open <code>js/checkin.js</code> and change <code>GITHUB_REPO</code> to your real <code>owner/repo-name</code>, then this message disappears automatically.</p>
+    </div>
+
+    <div class="callout callout--note reveal">
+      <span class="callout-label">Before you start</span>
+      <p>You'll need a free GitHub account to actually submit this (most students who code already have one). Consider using just your first name and last initial &mdash; e.g. "Ada O." &mdash; rather than your full name, since this can be visible publicly.</p>
+    </div>
+
+    <form id="checkin-form" class="tool-panel reveal">
+      <div class="field">
+        <label for="checkin-name">Your name (or first name + initial)</label>
+        <input type="text" id="checkin-name" placeholder="e.g. Ada O." required>
+      </div>
+
+      <div class="checkin-progress-box">
+        <strong style="font-size:.9rem;"><span id="checkin-progress-count">0</span> of 8 lessons complete on this device</strong>
+        <ul id="checkin-progress-list"></ul>
+      </div>
+
+      <div class="field">
+        <label for="checkin-note">Anything you want to tell your teacher? (optional)</label>
+        <textarea id="checkin-note" placeholder="e.g. I found Lesson 3 really interesting!"></textarea>
+      </div>
+
+      <button type="submit" id="checkin-submit" class="btn btn-primary" style="width:100%;justify-content:center;">Open my check-in on GitHub →</button>
+    </form>
+
+    <p id="checkin-result" class="callout callout--try" style="margin-top:18px;"></p>
+  </div>
+</section>
+"""
+
+page(
+    filename="checkin.html",
+    title="Check In With Your Teacher",
+    description="Send your lesson progress to your teacher via a free, pre-filled GitHub check-in — no account needed on this site, no data collected here.",
+    active="course",
+    hero_html=checkin_hero,
+    body_html=checkin_body,
+    extra_scripts='<script src="js/progress.js"></script>\n<script src="js/checkin.js"></script>',
+)
+print("CHECK-IN PAGE BUILT")
+
+# =========================================================
+# CLASS DASHBOARD (auto-updated by a free GitHub Action)
+# =========================================================
+dashboard_hero = hero_block(
+    eyebrow="Guided course · Class dashboard",
+    h1="Class Dashboard",
+    lede="A live view of every student check-in &mdash; built automatically by a free GitHub Action that watches the repo's Issues, so you never have to read a raw Issues list by hand.",
+    ctas_html='<a href="checkin.html" class="btn btn-ghost">Check In page →</a>'
+              '<a href="for-teachers.html" class="btn btn-ghost">For teachers →</a>',
+    media_html="", readout_cells=[
+        {"label": "Updates", "value": "Auto", "decimals": 0, "suffix": "", "tone": "cool"},
+        {"label": "Cost", "value": "0", "decimals": 0, "prefix": "₦", "suffix": "", "tone": ""},
+    ],
+    narrow=True,
+)
+
+dashboard_body = """
+<section class="section">
+  <div class="wrap">
+    <div id="dashboard-mount" class="reveal"><div class="weather-loading">Loading dashboard&hellip;</div></div>
+    <div class="callout callout--note reveal" style="margin-top:30px;">
+      <span class="callout-label">How this stays up to date</span>
+      <p>Every time a check-in Issue is opened (or every six hours as a fallback), a free GitHub Action reads the repo's Issues, rebuilds <code>roster-data.json</code>, and commits it back &mdash; no server, no database, no cost. See <code>.github/workflows/update-dashboard.yml</code> and <code>scripts/build_roster.py</code> in the repo.</p>
+    </div>
+  </div>
+</section>
+"""
+
+page(
+    filename="class-dashboard.html",
+    title="Class Dashboard",
+    description="An auto-updating class dashboard showing every student's lesson check-ins, built with a free GitHub Action — no backend required.",
+    active="course",
+    hero_html=dashboard_hero,
+    body_html=dashboard_body,
+    extra_scripts='<script src="js/dashboard.js"></script>',
+)
+print("DASHBOARD PAGE BUILT")

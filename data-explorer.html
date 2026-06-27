@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Data Explorer · Global Warming Explorer</title>
-<meta name="description" content="Real, sourced climate data visualised: the CO2 curve, the warmest years on record, renewables growth, and Nigeria's 2025 flood numbers.">
+<meta name="description" content="Live weather plus real, sourced climate data: the CO2 curve, the warmest years on record, renewables growth, and Nigeria's 2025 flood numbers.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -65,6 +65,8 @@
       </div>
       <div class="mm-section"><h4>Guided course</h4>
         <a href="course.html">8-Lesson Course</a>
+        <a href="checkin.html">Check In</a>
+        <a href="class-dashboard.html">Class Dashboard</a>
         <a href="for-teachers.html">For Teachers</a>
         <a href="certificate.html">Certificate</a>
       </div>
@@ -100,6 +102,13 @@
 
 <section class="section">
   <div class="wrap">
+    <div class="chart-card reveal">
+      <h3>🌤️ Today's weather</h3>
+      <p class="chart-meta">Live, right now &mdash; defaults to Ibadan, or search any city</p>
+      <div id="weather-mount"></div>
+      <p class="source-note">Weather data: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> (free, no key, CC BY 4.0). One important distinction: this is <strong>weather</strong> &mdash; today, one place. The charts below are <strong>climate</strong> &mdash; decades, the whole planet. A hot or rainy day here says nothing about global warming on its own; see <a href="what-is-global-warming.html">Weather vs. Climate</a>.</p>
+    </div>
+
     <div class="chart-card reveal">
       <h3>Atmospheric CO2 is still climbing</h3>
       <p class="chart-meta">Annual mean CO2 concentration, Mauna Loa Observatory, Hawaii (parts per million)</p>
@@ -168,6 +177,8 @@
         <h5>Connect</h5>
         <ul>
           <li><a href="course.html">8-Lesson Course</a></li>
+          <li><a href="checkin.html">Check In</a></li>
+          <li><a href="class-dashboard.html">Class Dashboard</a></li>
           <li><a href="for-teachers.html">For Teachers</a></li>
           <li><a href="data-explorer.html">Data Explorer</a></li>
           <li><a href="quiz.html">Quiz</a></li>
@@ -175,7 +186,7 @@
           <li><a href="about.html">About Babatunde</a></li>
           <li><a href="https://github.com/babatundeawo" target="_blank" rel="noopener">GitHub — babatundeawo</a></li>
           <li><a href="https://github.com/techbaseng" target="_blank" rel="noopener">GitHub — Techbase</a></li>
-          <li><a href="https://techbasengr.com.ng/" target="_blank" rel="noopener">techbasengr.com.ng</a></li>
+          <li><a href="https://babatundeawo.github.io/" target="_blank" rel="noopener">My Portfolio</a></li>
         </ul>
       </div>
     </div>
@@ -185,6 +196,7 @@
     </div>
   </footer>
 <script src="js/main.js"></script>
+<script src="js/weather.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script src="js/charts.js"></script>
 </body>

@@ -586,3 +586,39 @@ a:focus-visible, button:focus-visible, input:focus-visible, .quiz-opt:focus-visi
   .lesson-card{ flex-wrap:wrap; }
   .lesson-check{ margin-left:0; }
 }
+
+/* check-in page */
+.checkin-progress-box{ background:var(--paper-raised); border:1px solid var(--line-soft); border-radius:var(--radius); padding:20px; margin:20px 0; }
+.checkin-progress-box ul{ list-style:none; display:grid; gap:6px; margin-top:10px; }
+.checkin-progress-box li{ font-size:.9rem; color:var(--ink-soft); padding:4px 0; border-bottom:1px solid var(--line-soft); }
+.checkin-progress-box li:last-child{ border-bottom:none; }
+#checkin-setup-warning{ display:none; }
+#checkin-result{ display:none; }
+.field textarea{
+  width:100%; padding:.7em .8em; border-radius:8px; border:1.5px solid var(--line); background:#fff;
+  font-size:.95rem; font-family:inherit; resize:vertical; min-height:80px;
+}
+
+/* =========================================================
+   WEATHER WIDGET (Today's Weather, on Data Explorer)
+   ========================================================= */
+.weather-controls{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px; }
+.weather-controls input[type=text]{
+  flex:1; min-width:160px; padding:.65em .9em; border-radius:999px; border:1.5px solid var(--line);
+  font-size:.9rem; font-family:inherit;
+}
+.weather-card{
+  background:linear-gradient(135deg, var(--teal-900), var(--teal-700)); color:#fff;
+  border-radius:var(--radius); padding:26px; display:flex; flex-direction:column; gap:6px;
+}
+.weather-top{ display:flex; justify-content:space-between; align-items:flex-start; }
+.weather-loc{ font-family:"Space Grotesk",sans-serif; font-weight:700; font-size:1.15rem; display:block; }
+.weather-updated{ font-size:.74rem; color:#B8CABF; display:block; margin-top:2px; }
+.weather-emoji{ font-size:2.4rem; line-height:1; }
+.weather-temp{ font-family:"JetBrains Mono",monospace; font-size:3rem; font-weight:700; margin-top:6px; }
+.weather-desc{ font-size:1rem; color:#D7E4DD; margin-bottom:6px; }
+.weather-stats{ display:flex; gap:24px; margin-top:8px; border-top:1px solid rgba(255,255,255,.15); padding-top:14px; }
+.weather-stat .ws-l{ font-family:"JetBrains Mono",monospace; font-size:.68rem; text-transform:uppercase; letter-spacing:.08em; color:#9DB6AC; display:block; }
+.weather-stat .ws-v{ font-weight:700; font-size:1rem; margin-top:2px; }
+.weather-loading, .weather-error{ font-size:.9rem; color:var(--ink-faint); padding:20px; text-align:center; }
+.weather-error{ color:var(--coral-600); }
