@@ -43,32 +43,39 @@
       </div>
       <div class="nav-cta">
         <a href="about.html" class="btn btn-ghost btn-sm">About</a>
-        <button class="menu-btn" aria-label="Open menu" aria-expanded="false"><span></span></button>
+        <button class="menu-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><span></span></button>
       </div>
     </nav>
-    <div class="mobile-menu">
-      <a style="font-weight:800;font-size:1.1rem;" href="index.html">Home</a>
-      <a style="font-weight:800;font-size:1.1rem;" href="course.html">Course</a>
-      <div class="mm-section"><h4>Learn</h4><a href="what-is-global-warming.html">What Is Global Warming?</a>
+    <div class="mobile-menu-backdrop" id="mobile-menu-backdrop"></div>
+    <div class="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Site menu">
+      <div class="mobile-menu-head">
+        <span>Menu</span>
+        <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Close menu">✕</button>
+      </div>
+      <div class="mobile-menu-body">
+        <a style="font-weight:800;font-size:1.1rem;" href="index.html">Home</a>
+        <a style="font-weight:800;font-size:1.1rem;" href="course.html">Course</a>
+        <div class="mm-section"><h4>Learn</h4><a href="what-is-global-warming.html">What Is Global Warming?</a>
 <a href="causes.html">Causes</a>
 <a href="effects.html">Effects</a>
 <a href="why-care.html">Why Should We Care?</a></div>
-      <div class="mm-section"><h4>Take Action</h4><a href="carbon-footprint.html">Carbon Footprint Calculator</a>
+        <div class="mm-section"><h4>Take Action</h4><a href="carbon-footprint.html">Carbon Footprint Calculator</a>
 <a href="recycle.html">Reduce, Reuse, Recycle</a>
 <a href="clean-energy.html">Clean Energy</a>
 <a href="action-hub.html">Action Hub</a></div>
-      <div class="mm-section"><h4>Go further</h4>
-        <a href="data-explorer.html">Data Explorer</a>
-        <a href="quiz.html">Quiz</a>
-        <a href="glossary.html">Glossary</a>
-        <a href="about.html">About</a>
-      </div>
-      <div class="mm-section"><h4>Guided course</h4>
-        <a href="course.html">8-Lesson Course</a>
-        <a href="checkin.html">Check In</a>
-        <a href="class-dashboard.html">Class Dashboard</a>
-        <a href="for-teachers.html">For Teachers</a>
-        <a href="certificate.html">Certificate</a>
+        <div class="mm-section"><h4>Go further</h4>
+          <a href="data-explorer.html">Data Explorer</a>
+          <a href="quiz.html">Quiz</a>
+          <a href="glossary.html">Glossary</a>
+          <a href="about.html">About</a>
+        </div>
+        <div class="mm-section"><h4>Guided course</h4>
+          <a href="course.html">8-Lesson Course</a>
+          <a href="checkin.html">Check In</a>
+          <a href="class-dashboard.html">Class Dashboard</a>
+          <a href="for-teachers.html">For Teachers</a>
+          <a href="certificate.html">Certificate</a>
+        </div>
       </div>
     </div>
   </header>
