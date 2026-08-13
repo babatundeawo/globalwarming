@@ -1,6 +1,5 @@
-/* Course progress tracking — uses localStorage on the real deployed site.
-   (Note: localStorage is unavailable inside some sandboxed preview frames —
-   this degrades gracefully to in-memory-only tracking there, but works
+/* Course progress tracking, uses localStorage on the real deployed site.
+   (Note: localStorage is unavailable inside some sandboxed preview frames; this degrades gracefully to in-memory-only tracking there, but works
    normally once this site is deployed to GitHub Pages or any real host.) */
 (function(){
   "use strict";
@@ -55,13 +54,13 @@
       btn.classList.toggle("btn-primary", !done);
       btn.classList.toggle("btn-ghost", done);
       var status = document.getElementById("complete-status");
-      if (status) status.textContent = done ? "Nice work — saved on this device." : "";
+      if (status) status.textContent = done ? "Nice work, saved on this device." : "";
     }
     btn.addEventListener("click", function(){ toggle(num); renderBtn(); });
     renderBtn();
     if (!storageOK){
       var warn = document.getElementById("complete-status");
-      if (warn) warn.textContent = "Note: this preview can't save progress — it will on the deployed site.";
+      if (warn) warn.textContent = "Note: this preview can't save progress; it will on the deployed site.";
     }
   }
 

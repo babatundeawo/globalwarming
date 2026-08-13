@@ -89,4 +89,157 @@
   var yearEl = document.querySelector(".js-year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  /* ---- dark mode toggle (persisted, respects prefers-color-scheme by default) ---- */
+  var themeBtn = document.getElementById("theme-toggle");
+  function currentTheme(){
+    return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+  }
+  function setTheme(theme){
+    if (theme === "dark") document.documentElement.setAttribute("data-theme", "dark");
+    else document.documentElement.removeAttribute("data-theme");
+    try{ localStorage.setItem("gw-theme", theme); }catch(e){}
+    if (themeBtn) themeBtn.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
+  }
+  if (themeBtn){
+    themeBtn.setAttribute("aria-pressed", currentTheme() === "dark" ? "true" : "false");
+    themeBtn.addEventListener("click", function(){
+      setTheme(currentTheme() === "dark" ? "light" : "dark");
+    });
+  }
+
+  /* ---- scroll progress bar ---- */
+  var progressBar = document.getElementById("scroll-progress-bar");
+  if (progressBar){
+    var ticking = false;
+    function updateProgress(){
+      var doc = document.documentElement;
+      var scrollTop = doc.scrollTop || document.body.scrollTop;
+      var height = (doc.scrollHeight - doc.clientHeight) || 1;
+      var pct = Math.min(100, Math.max(0, (scrollTop / height) * 100));
+      progressBar.style.width = pct + "%";
+      ticking = false;
+    }
+    updateProgress();
+    window.addEventListener("scroll", function(){
+      if (!ticking){ window.requestAnimationFrame(updateProgress); ticking = true; }
+    }, { passive: true });
+    window.addEventListener("resize", updateProgress);
+  }
+
+  /* ---- back to top button ---- */
+  var backToTop = document.getElementById("back-to-top");
+  if (backToTop){
+    window.addEventListener("scroll", function(){
+      backToTop.classList.toggle("is-visible", window.scrollY > 500);
+    }, { passive: true });
+    backToTop.addEventListener("click", function(){
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  /* ---- command palette: Ctrl/Cmd+K quick jump across all pages ---- */
+  var paletteBackdrop = document.getElementById("palette-backdrop");
+  var paletteInput = document.getElementById("palette-input");
+  var paletteResults = document.getElementById("palette-results");
+  var paletteBtn = document.getElementById("palette-btn");
+  var pages = window.SITE_PAGES || [];
+  var activeIndex = -1;
+  var visibleItems = [];
+
+  function renderPalette(query){
+    var q = (query || "").trim().toLowerCase();
+    var filtered = !q ? pages : pages.filter(function(p){
+      return (p.title + " " + p.desc + " " + p.group).toLowerCase().indexOf(q) !== -1;
+    });
+    if (!paletteResults) return;
+    if (!filtered.length){
+      paletteResults.innerHTML = '<div class="palette-empty">No pages match &ldquo;' + q + '&rdquo;.</div>';
+      visibleItems = [];
+      return;
+    }
+    var groups = [];
+    var seen = {};
+    filtered.forEach(function(p){
+      if (!seen[p.group]){ seen[p.group] = true; groups.push(p.group); }
+    });
+    var html = "";
+    groups.forEach(function(group){
+      html += '<div class="palette-group">' + group + '</div>';
+      filtered.filter(function(p){ return p.group === group; }).forEach(function(p){
+        html += '<button class="palette-item" data-href="' + p.href + '">' +
+          '<span class="pi-ico">' + p.icon + '</span>' +
+          '<span><span class="pi-title">' + p.title + '</span>' +
+          '<div class="pi-desc">' + p.desc + '</div></span>' +
+          '</button>';
+      });
+    });
+    paletteResults.innerHTML = html;
+    visibleItems = Array.prototype.slice.call(paletteResults.querySelectorAll(".palette-item"));
+    activeIndex = visibleItems.length ? 0 : -1;
+    highlightActive();
+    visibleItems.forEach(function(item){
+      item.addEventListener("click", function(){
+        window.location.href = item.getAttribute("data-href");
+      });
+    });
+  }
+
+  function highlightActive(){
+    visibleItems.forEach(function(item, i){
+      item.classList.toggle("is-active", i === activeIndex);
+    });
+    if (activeIndex >= 0 && visibleItems[activeIndex]){
+      visibleItems[activeIndex].scrollIntoView({ block: "nearest" });
+    }
+  }
+
+  function openPalette(){
+    if (!paletteBackdrop) return;
+    renderPalette("");
+    paletteBackdrop.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+    if (paletteInput){ paletteInput.value = ""; paletteInput.focus(); }
+  }
+  function closePalette(){
+    if (!paletteBackdrop) return;
+    paletteBackdrop.classList.remove("is-open");
+    document.body.style.overflow = "";
+  }
+
+  if (paletteBtn) paletteBtn.addEventListener("click", openPalette);
+  if (paletteBackdrop){
+    paletteBackdrop.addEventListener("click", function(e){
+      if (e.target === paletteBackdrop) closePalette();
+    });
+  }
+  if (paletteInput){
+    paletteInput.addEventListener("input", function(){
+      renderPalette(paletteInput.value);
+    });
+    paletteInput.addEventListener("keydown", function(e){
+      if (e.key === "ArrowDown"){
+        e.preventDefault();
+        if (visibleItems.length){ activeIndex = (activeIndex + 1) % visibleItems.length; highlightActive(); }
+      } else if (e.key === "ArrowUp"){
+        e.preventDefault();
+        if (visibleItems.length){ activeIndex = (activeIndex - 1 + visibleItems.length) % visibleItems.length; highlightActive(); }
+      } else if (e.key === "Enter"){
+        e.preventDefault();
+        if (activeIndex >= 0 && visibleItems[activeIndex]){
+          window.location.href = visibleItems[activeIndex].getAttribute("data-href");
+        }
+      }
+    });
+  }
+  document.addEventListener("keydown", function(e){
+    var isK = e.key === "k" || e.key === "K";
+    if ((e.metaKey || e.ctrlKey) && isK){
+      e.preventDefault();
+      if (paletteBackdrop && paletteBackdrop.classList.contains("is-open")) closePalette();
+      else openPalette();
+    } else if (e.key === "Escape" && paletteBackdrop && paletteBackdrop.classList.contains("is-open")){
+      closePalette();
+    }
+  });
+
 })();

@@ -1,4 +1,4 @@
-/* Class Dashboard — fetches roster-data.json (built by the GitHub Action)
+/* Class Dashboard, fetches roster-data.json (built by the GitHub Action)
    and renders it. Handles the "no data yet" first-run state gracefully. */
 (function(){
   "use strict";
@@ -33,7 +33,7 @@
     mount.innerHTML =
       '<div class="callout callout--note">' +
       '<span class="callout-label">No check-ins yet</span>' +
-      '<p>This page reads <code>roster-data.json</code>, which a free GitHub Action regenerates automatically whenever someone submits the <a href="checkin.html">Check In</a> form. Once the first check-in Issue lands in the repo, this dashboard fills in on its own — usually within minutes, or up to a few hours on the scheduled fallback run.</p>' +
+      '<p>This page reads <code>roster-data.json</code>, which a free GitHub Action regenerates automatically whenever someone submits the <a href="checkin.html">Check In</a> form. Once the first check-in Issue lands in the repo, this dashboard fills in on its own: usually within minutes, or up to a few hours on the scheduled fallback run.</p>' +
       '<p style="margin-top:10px;">Site owner: if this message persists after a real check-in, open the repo\u2019s <strong>Actions</strong> tab and confirm the "Update Class Dashboard" workflow ran successfully.</p>' +
       '</div>';
   }

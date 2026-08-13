@@ -1,9 +1,9 @@
 """
 Reads every "Check-in: ..." Issue in this repo via the GitHub REST API and
-writes roster-data.json — the file class-dashboard.html fetches and renders.
+writes roster-data.json, the file class-dashboard.html fetches and renders.
 
 Runs inside GitHub Actions (see .github/workflows/update-dashboard.yml),
-using the automatically-provided GITHUB_TOKEN — no secrets to set up, no
+using the automatically-provided GITHUB_TOKEN: no secrets to set up, no
 third-party service involved. Standard library only, no pip installs.
 """
 import json
@@ -79,7 +79,7 @@ def parse_checkin(issue):
 
 def main():
     if not REPO:
-        print("GITHUB_REPOSITORY not set — nothing to do.", file=sys.stderr)
+        print("GITHUB_REPOSITORY not set, nothing to do.", file=sys.stderr)
         sys.exit(0)
 
     issues = fetch_all_issues()
@@ -112,7 +112,7 @@ def main():
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         json.dump(out, f, indent=2)
 
-    print("Wrote %s — %d students, %d check-ins" % (OUT_PATH, len(student_list), len(checkins)))
+    print("Wrote %s: %d students, %d check-ins" % (OUT_PATH, len(student_list), len(checkins)))
 
 
 if __name__ == "__main__":

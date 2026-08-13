@@ -1,4 +1,4 @@
-/* Data Explorer charts — figures sourced from NOAA Global Monitoring Laboratory (Mauna Loa
+/* Data Explorer charts, figures sourced from NOAA Global Monitoring Laboratory (Mauna Loa
    Observatory annual mean CO2) and NOAA NCEI global climate reports. See source notes on the page. */
 (function(){
   "use strict";
@@ -43,7 +43,7 @@
       data: {
         labels: ["2023", "2024 (record)", "2025"],
         datasets: [{
-          label: "°C above 20th-century (1901–2000) average",
+          label: "°C above 20th-century (1901 to 2000) average",
           data: [1.19, 1.29, 1.17],
           backgroundColor: ["#EE8C3C", "#C8432F", "#EE8C3C"],
           borderRadius: 8,

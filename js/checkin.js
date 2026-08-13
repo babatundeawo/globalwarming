@@ -1,4 +1,4 @@
-/* Class check-in — turns local lesson progress into a pre-filled GitHub Issue
+/* Class check-in, turns local lesson progress into a pre-filled GitHub Issue
    the student opens and submits themselves. No backend, no secrets, no auto-
    posting: nothing is sent anywhere until the student clicks "Submit new
    issue" on github.com.
@@ -47,7 +47,7 @@
     if (progressCount) progressCount.textContent = nums.length;
     if (progressList){
       progressList.innerHTML = nums.length
-        ? nums.map(function(n){ return "<li>Lesson " + n + " — " + LESSON_TITLES[n] + "</li>"; }).join("")
+        ? nums.map(function(n){ return "<li>Lesson " + n + ", " + LESSON_TITLES[n] + "</li>"; }).join("")
         : "<li class=\"muted\">No lessons marked complete on this device yet.</li>";
     }
   }
@@ -66,7 +66,7 @@
       : "- No lessons marked complete yet";
     var note = (noteInput && noteInput.value.trim()) ? noteInput.value.trim() : "(none)";
 
-    var title = "Check-in: " + name + " — " + nums.length + "/8 lessons";
+    var title = "Check-in: " + name + ", " + nums.length + "/8 lessons";
     var body =
       "**Name:** " + name + "\n" +
       "**Progress:** " + nums.length + " of 8 lessons\n\n" +
@@ -80,7 +80,7 @@
     window.open(url, "_blank", "noopener");
     if (resultBox){
       resultBox.style.display = "block";
-      resultBox.textContent = "A new tab just opened on GitHub with your check-in pre-filled. You may need to sign in (it's free), then click \"Submit new issue\" to actually send it — nothing is sent until you do that.";
+      resultBox.textContent = "A new tab just opened on GitHub with your check-in pre-filled. You may need to sign in (it's free), then click \"Submit new issue\" to actually send it, nothing is sent until you do that.";
     }
   });
 })();

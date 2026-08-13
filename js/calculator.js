@@ -1,4 +1,4 @@
-/* Carbon footprint mini-calculator — simplified educational estimate, not a precise audit */
+/* Carbon footprint mini-calculator, simplified educational estimate, not a precise audit */
 (function(){
   "use strict";
   var form = document.getElementById("footprint-form");
@@ -54,11 +54,11 @@
 
     var note;
     if (total < WORLD_AVG * 0.6){
-      note = "That's well below the rough global average of about " + WORLD_AVG + " t — your habits are already doing a lot of the work other people's lifestyles add back.";
+      note = "That's well below the rough global average of about " + WORLD_AVG + " t: your habits are already doing a lot of the work other people's lifestyles add back.";
     } else if (total < WORLD_AVG * 1.05){
       note = "That's close to the rough global average of about " + WORLD_AVG + " t CO2e per person per year. Small shifts in transport or electricity use move this number more than almost anything else.";
     } else {
-      note = "That's above the rough global average of about " + WORLD_AVG + " t. Flights, generator use and daily transport distance tend to move this number the most — see which one of yours is the biggest slice.";
+      note = "That's above the rough global average of about " + WORLD_AVG + " t. Flights, generator use and daily transport distance tend to move this number the most; see which one of yours is the biggest slice.";
     }
     resultNote.textContent = note;
     resultBox.style.display = "block";

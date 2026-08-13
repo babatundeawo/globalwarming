@@ -1,4 +1,4 @@
-/* Certificate of Completion — drawn on canvas, downloadable as PNG */
+/* Certificate of Completion, drawn on canvas, downloadable as PNG */
 (function(){
   "use strict";
   var canvas = document.getElementById("cert-canvas");

@@ -1,4 +1,4 @@
-/* Action Hub checklist — in-memory only (resets on reload by design) */
+/* Action Hub checklist, in-memory only (resets on reload by design) */
 (function(){
   "use strict";
   var list = document.querySelectorAll(".checklist li");

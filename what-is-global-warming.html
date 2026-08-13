@@ -3,8 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
 <title>What Is Global Warming? · Global Warming Explorer</title>
 <meta name="description" content="The greenhouse effect explained simply: how sunlight, heat and greenhouse gases work together, and why a 50% rise in CO2 matters so much.">
+<script>
+(function(){
+  try{
+    var saved = localStorage.getItem("gw-theme");
+    var theme = saved || (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    if (theme === "dark") document.documentElement.setAttribute("data-theme", "dark");
+  }catch(e){}
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,9 +23,10 @@
 
 </head>
 <body>
+<div class="scroll-progress" aria-hidden="true"><div class="scroll-progress-bar" id="scroll-progress-bar"></div></div>
 <a href="#main" class="skip-link">Skip to content</a>
 <header class="site-header">
-    <nav class="nav">
+    <nav class="nav" aria-label="Primary">
       <a href="index.html" class="brand">
         <span class="mark">GW</span>
         <span>Global Warming Explorer<small>by Babatunde Awoyemi · Techbase</small></span>
@@ -42,6 +53,16 @@
 <a class="nav-link" href="glossary.html">Glossary</a>
       </div>
       <div class="nav-cta">
+        <div class="header-tools">
+        <button class="icon-btn palette-btn" id="palette-btn" aria-label="Search pages" aria-keyshortcuts="Control+K">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <span class="pb-label">Jump to</span><kbd>Ctrl K</kbd>
+        </button>
+        <button class="icon-btn theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+          <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"></line><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"></line><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"></line></svg>
+          <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+      </div>
         <a href="about.html" class="btn btn-ghost btn-sm">About</a>
         <button class="menu-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><span></span></button>
       </div>
@@ -99,7 +120,7 @@
       <div>
         <p class="eyebrow">Start here · Learn</p>
         <h1>What is global warming, really?</h1>
-        <p class="lede">Strip away the politics and the panic for a second: global warming is a physics problem. It's about what happens to heat once sunlight reaches Earth &mdash; and why a thin layer of gas, measured in parts per million, makes such an outsized difference.</p>
+        <p class="lede">Strip away the politics and the panic for a second: global warming is a physics problem. It's about what happens to heat once sunlight reaches Earth, and why a thin layer of gas, measured in parts per million, makes such an outsized difference.</p>
         <div class="hero-ctas"><a href="causes.html" class="btn btn-primary">Next: what causes it →</a></div>
       </div>
       
@@ -112,7 +133,7 @@
     <div class="layout-2col">
       <div class="prose reveal">
         <h2>The greenhouse effect, in one diagram</h2>
-        <p>Sunlight passes through the atmosphere fairly easily and warms the ground. The warmed Earth then radiates that energy back outward as heat (infrared radiation). Some of that heat escapes straight to space &mdash; but greenhouse gases like carbon dioxide (CO2), methane and water vapour absorb part of it and radiate it back down again, the way a blanket holds your body heat in rather than creating any heat of its own.</p>
+        <p>Sunlight passes through the atmosphere fairly easily and warms the ground. The warmed Earth then radiates that energy back outward as heat (infrared radiation). Some of that heat escapes straight to space, but greenhouse gases like carbon dioxide (CO2), methane and water vapour absorb part of it and radiate it back down again, the way a blanket holds your body heat in rather than creating any heat of its own.</p>
         <div class="callout callout--note" style="background:#fff;padding:18px;"><svg viewBox="0 0 700 430" style="width:100%;height:auto;" role="img" aria-label="Diagram of the greenhouse effect: sunlight enters the atmosphere, heat radiates from Earth's surface, and greenhouse gases trap part of that heat while some escapes to space.">
   <defs>
     <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
@@ -163,22 +184,22 @@
   <text x="530" y="120" font-family="Plus Jakarta Sans, sans-serif" font-size="13" font-weight="700" fill="#0E5C56">A little heat</text>
   <text x="530" y="137" font-family="Plus Jakarta Sans, sans-serif" font-size="13" font-weight="700" fill="#0E5C56">escapes to space</text>
 </svg></div>
-        <p>That's a genuinely good thing in the right amount &mdash; without any greenhouse effect at all, Earth's average surface temperature would sit somewhere around &minus;18°C, far too cold for the world as we know it. The trouble starts when we keep adding far more of these gases than natural processes can absorb, thickening the "blanket" year after year.</p>
+        <p>That's a genuinely good thing in the right amount, without any greenhouse effect at all, Earth's average surface temperature would sit somewhere around &minus;18°C, far too cold for the world as we know it. The trouble starts when we keep adding far more of these gases than natural processes can absorb, thickening the "blanket" year after year.</p>
 
         <h2 style="margin-top:1.6em;">Weather vs. climate vs. global warming</h2>
         <p>These three get mixed up constantly, so here's the difference in one line each:</p>
         <ul>
-          <li><strong>Weather</strong> is what's happening outside right now &mdash; today's rain, today's heat.</li>
+          <li><strong>Weather</strong> is what's happening outside right now, today's rain, today's heat.</li>
           <li><strong>Climate</strong> is the long-term pattern of weather in a place, usually averaged over 30 years.</li>
-          <li><strong>Global warming</strong> is the measured rise in Earth's average surface temperature over decades, caused mainly by human-added greenhouse gases &mdash; one driver reshaping climates everywhere, at different speeds and in different ways.</li>
+          <li><strong>Global warming</strong> is the measured rise in Earth's average surface temperature over decades, caused mainly by human-added greenhouse gases, one driver reshaping climates everywhere, at different speeds and in different ways.</li>
         </ul>
-        <p>A cold week somewhere doesn't disprove global warming any more than one hot afternoon proves it. It's the decades-long average that matters &mdash; and that average keeps climbing.</p>
+        <p>A cold week somewhere doesn't disprove global warming any more than one hot afternoon proves it. It's the decades-long average that matters, and that average keeps climbing.</p>
 
         <h2 style="margin-top:1.6em;">Why a few hundred parts per million matters so much</h2>
-        <p>"Parts per million" (ppm) sounds tiny, and in one sense it is &mdash; CO2 is still a small slice of the atmosphere, which is mostly nitrogen and oxygen. But greenhouse gases are disproportionately powerful at trapping heat for their size. Atmospheric CO2 has risen from about 280 ppm before the Industrial Revolution to roughly 427 ppm in 2025 &mdash; about a 50% increase &mdash; and each extra molecule adds a little more trapped heat across the entire planet, all the time.</p>
+        <p>"Parts per million" (ppm) sounds tiny, and in one sense it is: CO2 is still a small slice of the atmosphere, which is mostly nitrogen and oxygen. But greenhouse gases are disproportionately powerful at trapping heat for their size. Atmospheric CO2 has risen from about 280 ppm before the Industrial Revolution to roughly 427 ppm in 2025, about a 50% increase, and each extra molecule adds a little more trapped heat across the entire planet, all the time.</p>
         <div class="callout callout--try">
           <span class="callout-label">Try this · A 10-minute experiment</span>
-          <p>Place two thermometers in the sun: one inside a clear sealed jar, one left in the open air. Check both after 20&ndash;30 minutes. The jar traps heat the way greenhouse gases do &mdash; it almost always reads warmer. Scale that idea up to an entire planet, and you've got the core of this whole topic.</p>
+          <p>Place two thermometers in the sun: one inside a clear sealed jar, one left in the open air. Check both after 20 to 30 minutes. The jar traps heat the way greenhouse gases do; it almost always reads warmer. Scale that idea up to an entire planet, and you've got the core of this whole topic.</p>
         </div>
       </div>
       <aside class="side-card">
@@ -202,8 +223,8 @@
     <div class="footer-inner">
       <div>
         <div class="footer-brand"><span class="mark" style="width:26px;height:26px;font-size:.8rem;">GW</span> Global Warming Explorer</div>
-        <p>An open, explorative guide to global warming — built from Ibadan, Nigeria, for curious minds everywhere, kids included. Originally created as a classroom presentation; rebuilt from the ground up as a free learning project.</p>
-        <p class="muted">© <span class="js-year">2026</span> Babatunde Ayoola Awoyemi. Shared for learning — copy, remix and teach with it.</p>
+        <p>An open, explorative guide to global warming, built from Ibadan, Nigeria, for curious minds everywhere, kids included. Originally created as a classroom presentation; rebuilt from the ground up as a free learning project.</p>
+        <p class="muted">© <span class="js-year">2026</span> Babatunde Ayoola Awoyemi. Shared for learning, copy, remix and teach with it.</p>
       </div>
       <div>
         <h5>Learn</h5>
@@ -234,17 +255,31 @@
           <li><a href="quiz.html">Quiz</a></li>
           <li><a href="glossary.html">Glossary</a></li>
           <li><a href="about.html">About Babatunde</a></li>
-          <li><a href="https://github.com/babatundeawo" target="_blank" rel="noopener">GitHub — babatundeawo</a></li>
-          <li><a href="https://github.com/techbaseng" target="_blank" rel="noopener">GitHub — Techbase</a></li>
+          <li><a href="https://github.com/babatundeawo" target="_blank" rel="noopener">GitHub: babatundeawo</a></li>
+          <li><a href="https://github.com/techbaseng" target="_blank" rel="noopener">GitHub: Techbase</a></li>
           <li><a href="https://babatundeawo.github.io/" target="_blank" rel="noopener">My Portfolio</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>Built with HTML, CSS &amp; vanilla JS — no tracking, no ads.</span>
+      <span>Built with HTML, CSS &amp; vanilla JS, no tracking, no ads.</span>
       <span>A Techbase Consultant Services learning resource.</span>
     </div>
   </footer>
+<button class="back-to-top" id="back-to-top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+</button>
+<div class="palette-backdrop" id="palette-backdrop">
+  <div class="palette" role="dialog" aria-modal="true" aria-label="Jump to page">
+    <div class="palette-input-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="text" id="palette-input" placeholder="Jump to any page..." autocomplete="off" spellcheck="false">
+      <span class="palette-esc">ESC</span>
+    </div>
+    <div class="palette-results" id="palette-results"></div>
+  </div>
+</div>
+<script>window.SITE_PAGES = [{"icon": "\ud83c\udfe0", "title": "Home", "desc": "Free-roam entry point and site overview", "href": "index.html", "group": "Start"}, {"icon": "\ud83c\udf93", "title": "8-Lesson Course", "desc": "The same material, sequenced with worksheets", "href": "course.html", "group": "Start"}, {"icon": "\ud83c\udf0d", "title": "What Is Global Warming?", "desc": "The greenhouse effect, explained simply", "href": "what-is-global-warming.html", "group": "Learn"}, {"icon": "\ud83c\udfed", "title": "Causes", "desc": "What is actually filling the atmosphere, ranked", "href": "causes.html", "group": "Learn"}, {"icon": "\ud83c\udf0a", "title": "Effects", "desc": "Worldwide impacts, and Nigeria's 2025 floods and heat", "href": "effects.html", "group": "Learn"}, {"icon": "\u2764\ufe0f", "title": "Why Should We Care?", "desc": "Climate justice and why it matters close to home", "href": "why-care.html", "group": "Learn"}, {"icon": "\ud83e\uddee", "title": "Carbon Footprint Calculator", "desc": "Estimate your own footprint in two minutes", "href": "carbon-footprint.html", "group": "Take Action"}, {"icon": "\u267b\ufe0f", "title": "Reduce, Reuse, Recycle", "desc": "The three Rs, in the order that matters", "href": "recycle.html", "group": "Take Action"}, {"icon": "\u2600\ufe0f", "title": "Clean Energy", "desc": "Solar, wind, and Nigeria's untapped opportunity", "href": "clean-energy.html", "group": "Take Action"}, {"icon": "\u2705", "title": "Action Hub", "desc": "A tickable checklist of real actions", "href": "action-hub.html", "group": "Take Action"}, {"icon": "\ud83d\udcca", "title": "Data Explorer", "desc": "Live weather plus CO2, temperature and renewables charts", "href": "data-explorer.html", "group": "Go further"}, {"icon": "\ud83c\udfaf", "title": "Quiz", "desc": "Ten questions testing what you have learned", "href": "quiz.html", "group": "Go further"}, {"icon": "\ud83d\udcd6", "title": "Glossary & Sources", "desc": "Every tricky term, plus where the numbers come from", "href": "glossary.html", "group": "Go further"}, {"icon": "1\ufe0f\u20e3", "title": "Lesson 1", "desc": "The greenhouse effect", "href": "lesson-1.html", "group": "Course"}, {"icon": "2\ufe0f\u20e3", "title": "Lesson 2", "desc": "What causes global warming", "href": "lesson-2.html", "group": "Course"}, {"icon": "3\ufe0f\u20e3", "title": "Lesson 3", "desc": "Effects, worldwide and at home", "href": "lesson-3.html", "group": "Course"}, {"icon": "4\ufe0f\u20e3", "title": "Lesson 4", "desc": "Why we should care", "href": "lesson-4.html", "group": "Course"}, {"icon": "5\ufe0f\u20e3", "title": "Lesson 5", "desc": "Your carbon footprint", "href": "lesson-5.html", "group": "Course"}, {"icon": "6\ufe0f\u20e3", "title": "Lesson 6", "desc": "Reduce, reuse, recycle", "href": "lesson-6.html", "group": "Course"}, {"icon": "7\ufe0f\u20e3", "title": "Lesson 7", "desc": "Clean energy", "href": "lesson-7.html", "group": "Course"}, {"icon": "8\ufe0f\u20e3", "title": "Lesson 8", "desc": "Taking action", "href": "lesson-8.html", "group": "Course"}, {"icon": "\ud83c\udfc6", "title": "Certificate", "desc": "Download a Certificate of Completion", "href": "certificate.html", "group": "Course"}, {"icon": "\ud83d\udcee", "title": "Check In", "desc": "Send your progress to your teacher on GitHub", "href": "checkin.html", "group": "Course"}, {"icon": "\ud83d\udccb", "title": "Class Dashboard", "desc": "Auto-updating roster of student check-ins", "href": "class-dashboard.html", "group": "Course"}, {"icon": "\ud83e\uddd1\u200d\ud83c\udfeb", "title": "For Teachers", "desc": "Lesson plan, pacing guide and setup", "href": "for-teachers.html", "group": "Course"}, {"icon": "\ud83d\udc64", "title": "About", "desc": "Meet Babatunde Awoyemi and Techbase", "href": "about.html", "group": "About"}];</script>
 <script src="js/main.js"></script>
 
 </body>

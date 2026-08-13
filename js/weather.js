@@ -1,7 +1,7 @@
-/* Today's Weather — live, client-side, via Open-Meteo (free, no API key,
+/* Today's Weather, live, client-side, via Open-Meteo (free, no API key,
    CORS-enabled, CC BY 4.0). Defaults to Ibadan; visitors can search any
    city or use their own location. This is deliberately framed as WEATHER
-   (today, one place) rather than CLIMATE (decades, global average) — see
+   (today, one place) rather than CLIMATE (decades, global average), see
    the callout text below the widget. */
 (function(){
   "use strict";
@@ -61,7 +61,7 @@
     fetch(url)
       .then(function(r){ if (!r.ok) throw new Error("Weather lookup failed"); return r.json(); })
       .then(function(data){ renderWeather(loc, data); })
-      .catch(function(){ showError("Couldn't load weather right now — try again in a moment."); });
+      .catch(function(){ showError("Couldn't load weather right now, try again in a moment."); });
   }
 
   function renderWeather(loc, data){
@@ -96,11 +96,11 @@
       .then(function(r){ return r.json(); })
       .then(function(data){
         var hit = data && data.results && data.results[0];
-        if (!hit){ showError("Couldn't find \u201c" + q + "\u201d — try a different spelling or a bigger nearby city."); return; }
+        if (!hit){ showError("Couldn't find \u201c" + q + "\u201d, try a different spelling or a bigger nearby city."); return; }
         var name = hit.name + (hit.admin1 ? ", " + hit.admin1 : "") + (hit.country ? ", " + hit.country : "");
         loadWeather({ name: name, lat: hit.latitude, lon: hit.longitude });
       })
-      .catch(function(){ showError("City search isn't working right now — try again shortly."); });
+      .catch(function(){ showError("City search isn't working right now, try again shortly."); });
   }
 
   function useMyLocation(){
@@ -114,7 +114,7 @@
           lon: pos.coords.longitude.toFixed(3)
         });
       },
-      function(){ showError("Location access was denied or unavailable — showing Ibadan instead."); loadWeather(DEFAULT_LOC); },
+      function(){ showError("Location access was denied or unavailable, showing Ibadan instead."); loadWeather(DEFAULT_LOC); },
       { timeout: 8000 }
     );
   }
