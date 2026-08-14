@@ -151,11 +151,11 @@ def nav_html(active):
         <a class="nav-link%s" href="index.html">Home</a>
         <a class="nav-link%s" href="course.html">Course</a>
         <div class="nav-group">
-          <a class="nav-link%s" href="what-is-global-warming.html" aria-haspopup="true">Learn ▾</a>
+          <a class="nav-link%s" href="what-is-global-warming.html" aria-haspopup="true">Learn</a>
           <div class="nav-pop">%s</div>
         </div>
         <div class="nav-group">
-          <a class="nav-link%s" href="action-hub.html" aria-haspopup="true">Take Action ▾</a>
+          <a class="nav-link%s" href="action-hub.html" aria-haspopup="true">Take Action</a>
           <div class="nav-pop">%s</div>
         </div>
         %s

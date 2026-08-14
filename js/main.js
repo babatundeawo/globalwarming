@@ -107,6 +107,16 @@
     });
   }
 
+  /* ---- header shadow once the page scrolls ---- */
+  var siteHeader = document.querySelector(".site-header");
+  if (siteHeader){
+    var updateHeaderShadow = function(){
+      siteHeader.classList.toggle("is-scrolled", window.scrollY > 8);
+    };
+    updateHeaderShadow();
+    window.addEventListener("scroll", updateHeaderShadow, { passive: true });
+  }
+
   /* ---- scroll progress bar ---- */
   var progressBar = document.getElementById("scroll-progress-bar");
   if (progressBar){
