@@ -1,0 +1,43 @@
+name: Update Class Dashboard
+
+on:
+  issues:
+    types: [opened, edited, closed, reopened, deleted]
+  schedule:
+    # Fallback sync every 6 hours, in case an issue event is ever missed.
+    - cron: "0 */6 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  issues: read
+
+jobs:
+  build-roster:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build roster-data.json from check-in Issues
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python3 scripts/build_roster.py
+
+      - name: Commit roster-data.json if it changed
+        run: |
+          if git diff --quiet -- roster-data.json; then
+            echo "No roster changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add roster-data.json
+          git commit -m "chore: update class dashboard roster [skip ci]"
+          git push

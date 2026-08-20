@@ -8,6 +8,24 @@ like your other GitHub Pages projects). Includes a free-roam site, an
 a free, GitHub-native classroom check-in system with an auto-updating
 dashboard.
 
+## Documentation pass fixes (this update)
+
+Two real bugs were found and fixed while auditing this repo against its own
+README:
+
+- `js/checkin.js` had `GITHUB_REPO` hardcoded to `techbaseng/globalwarming`
+  (a different org) instead of `babatundeawo/globalwarming`, so the
+  "Submit Check-in" button was opening a new-issue link on the wrong repo.
+  Fixed to point at the correct repo.
+- `.github/workflows/update-dashboard.yml` — the GitHub Action this README
+  documents throughout the "Classroom check-ins & the dashboard" section —
+  was missing from the repo entirely, even though `scripts/build_roster.py`
+  (the script it's supposed to run) was present. Re-added, matching exactly
+  what `build_roster.py` and this README already expect: triggers on Issue
+  `opened`/`edited`/`closed`/`reopened`, a 6-hour scheduled fallback, and
+  manual `workflow_dispatch`, with `contents: write` permission to commit
+  `roster-data.json` back to the repo.
+
 ## 2026 modernisation pass
 
 This round of updates focused on making the site feel current on every
@@ -116,7 +134,7 @@ Action.
    "Read and write permissions" is selected, the dashboard Action needs
    this to commit `roster-data.json` back to the repo. (If this is greyed
    out or missing, it's already on by default for most personal repos.)
-4. Your live site is at https://techbaseng.github.io/globalwarming/.
+4. Your live site is at https://babatundeawo.github.io/globalwarming/.
 
 ## Classroom check-ins & the dashboard, how it actually works
 

@@ -8,7 +8,7 @@
    that's changed, the check-in link will 404. */
 (function(){
   "use strict";
-  var GITHUB_REPO = "techbaseng/globalwarming";
+  var GITHUB_REPO = "babatundeawo/globalwarming";
 
   var LESSON_TITLES = {
     1: "The Greenhouse Effect", 2: "Causes of Global Warming",
