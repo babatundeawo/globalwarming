@@ -12,6 +12,7 @@
 
   var liveMount = document.getElementById("live-readings");
   var heroCo2 = document.getElementById("hero-co2-value");
+  var heroCo2Label = document.getElementById("hero-co2-label");
   var heroCo2Badge = document.getElementById("hero-co2-badge");
   if (!liveMount && !heroCo2) return; // not on the Data Explorer page
 
@@ -69,6 +70,9 @@
     if (!heroCo2 || !state.co2) return;
     var suffix = heroCo2.getAttribute("data-suffix") || "";
     heroCo2.textContent = state.co2.ppm.toFixed(1) + suffix;
+    if (heroCo2Label) {
+      heroCo2Label.textContent = "CO2, Mauna Loa, right now";
+    }
     if (heroCo2Badge) {
       heroCo2Badge.hidden = false;
       heroCo2Badge.textContent = "Live \u00B7 " + state.co2.dateLabel;

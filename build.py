@@ -345,15 +345,17 @@ def readout(cells):
             numeric = False
         if numeric:
             id_attr = ' id="%s"' % c["id"] if c.get("id") else ""
+            label_id_attr = ' id="%s"' % c["label_id"] if c.get("label_id") else ""
             badge_html = (
                 '<span class="live-badge" id="%s" hidden>Live</span>' % c["badge_id"]
                 if c.get("badge_id")
                 else ""
             )
             parts.append(
-                '<div class="readout-cell"><span class="ro-label">%s</span>'
+                '<div class="readout-cell"><span class="ro-label"%s>%s</span>'
                 '<span class="ro-value js-counter%s"%s data-target="%s" data-decimals="%s" data-prefix="%s" data-suffix="%s">0</span>%s</div>'
                 % (
+                    label_id_attr,
                     c["label"],
                     tone_cls,
                     id_attr,
@@ -1251,8 +1253,8 @@ data_hero = hero_block(
     lede="Three real, sourced datasets, visualised: the long climb of atmospheric CO2, the warmest years on record, and how fast renewables are growing, plus Nigeria's own 2025 flood numbers.",
     ctas_html='<a href="quiz.html" class="btn btn-primary">Next: take the quiz →</a>',
     media_html="", readout_cells=[
-        {"label": "CO2, Mauna Loa, 2025", "value": "427.4", "decimals": 1, "suffix": " ppm", "tone": "warm",
-         "id": "hero-co2-value", "badge_id": "hero-co2-badge"},
+        {"label": "CO2, Mauna Loa, 2025 average", "value": "427.4", "decimals": 1, "suffix": " ppm", "tone": "warm",
+         "id": "hero-co2-value", "label_id": "hero-co2-label", "badge_id": "hero-co2-badge"},
         {"label": "3 warmest years on record", "value": "2023", "decimals": 0, "suffix": " to 2025", "tone": "alert"},
     ],
     narrow=True,
@@ -1272,7 +1274,7 @@ data_body = """
       <h3>📡 Live right now</h3>
       <p class="chart-meta">Fetched fresh on every visit, this is the site checking its own knowledge base against the real, current data</p>
       <div class="live-readings" id="live-readings"><p class="chart-meta">Live figures are loading&hellip;</p></div>
-      <p class="source-note">Source: <a href="https://global-warming.org/" target="_blank" rel="noopener">global-warming.org</a>'s free API, itself republishing NOAA Mauna Loa CO2 and NASA GISTEMP global temperature data.</p>
+      <p class="source-note">Source: <a href="https://global-warming.org/" target="_blank" rel="noopener">global-warming.org</a>'s free API, itself republishing NOAA Mauna Loa CO2 and NASA GISTEMP global temperature data. This is the only panel on this page that updates itself. The charts and figures below it are annual/full-year data, so they'll keep reading "2025" until 2026 itself is over and NOAA publishes a final 2026 figure, that's normal, not stale.</p>
     </div>
 
     <div class="chart-card reveal">
