@@ -34,8 +34,9 @@ screen size, without touching the free, no-build-step architecture:
 - **Dark mode** — a header toggle that respects system preference by
   default, persists across visits, and swaps instantly with no flash on
   load.
-- **Command palette** — press `Ctrl/Cmd+K` (or tap the search icon on
-  mobile) to fuzzy-search and jump straight to any of the 27 pages.
+- **Command palette** — press `Ctrl/Cmd+K` on desktop to fuzzy-search and
+  jump straight to any page (the header's "Jump to" button has been
+  removed by request, the keyboard shortcut still works).
 - **Scroll progress bar** and a **back-to-top button** on every page.
 - Verified climate figures against NOAA, WMO and Berkeley Earth as of
   August 2026 (2025 as the third-warmest year on record, ~427 ppm CO2,

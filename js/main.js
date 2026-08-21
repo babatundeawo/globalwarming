@@ -151,7 +151,6 @@
   var paletteBackdrop = document.getElementById("palette-backdrop");
   var paletteInput = document.getElementById("palette-input");
   var paletteResults = document.getElementById("palette-results");
-  var paletteBtn = document.getElementById("palette-btn");
   var pages = window.SITE_PAGES || [];
   var activeIndex = -1;
   var visibleItems = [];
@@ -216,7 +215,6 @@
     document.body.style.overflow = "";
   }
 
-  if (paletteBtn) paletteBtn.addEventListener("click", openPalette);
   if (paletteBackdrop){
     paletteBackdrop.addEventListener("click", function(e){
       if (e.target === paletteBackdrop) closePalette();
