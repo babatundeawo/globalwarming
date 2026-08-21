@@ -29,6 +29,7 @@ ACT_ITEMS = [
 ]
 TAIL_ITEMS = [
     ("data-explorer.html", "Data Explorer", "data"),
+    ("simulator.html", "Simulator", "simulator"),
     ("quiz.html", "Quiz", "quiz"),
     ("glossary.html", "Glossary", "glossary"),
 ]
@@ -49,6 +50,7 @@ PAGES_DATA = [
     ("☀️", "Clean Energy", "Solar, wind, and Nigeria's untapped opportunity", "clean-energy.html", "Take Action"),
     ("✅", "Action Hub", "A tickable checklist of real actions", "action-hub.html", "Take Action"),
     ("📊", "Data Explorer", "Live weather plus CO2, temperature and renewables charts", "data-explorer.html", "Go further"),
+    ("🧪", "Climate Simulator", "Drag the CO2 slider and watch the greenhouse effect happen", "simulator.html", "Go further"),
     ("🎯", "Quiz", "Ten questions testing what you have learned", "quiz.html", "Go further"),
     ("📖", "Glossary & Sources", "Every tricky term, plus where the numbers come from", "glossary.html", "Go further"),
     ("1️⃣", "Lesson 1", "The greenhouse effect", "lesson-1.html", "Course"),
@@ -95,6 +97,64 @@ THEME_INIT_SCRIPT = """<script>
 </script>"""
 
 SCROLL_PROGRESS_HTML = """<div class="scroll-progress" aria-hidden="true"><div class="scroll-progress-bar" id="scroll-progress-bar"></div></div>"""
+
+PWA_HEAD_HTML = """<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0E5C56" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B1815" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GW Explorer">
+<link rel="apple-touch-icon" href="images/icons/icon-192.png">"""
+
+INSTALL_TOAST_HTML = """<div class="install-toast" id="install-toast" role="dialog" aria-label="Install this site">
+  <div class="it-ico" aria-hidden="true">🌍</div>
+  <div class="it-body">
+    <div class="it-title">Install Global Warming Explorer</div>
+    <div class="it-desc">Add it to your home screen or desktop, works offline too.</div>
+  </div>
+  <div class="it-actions">
+    <button type="button" class="it-dismiss" id="install-dismiss">Not now</button>
+    <button type="button" class="it-install" id="install-accept">Install</button>
+  </div>
+</div>"""
+
+PWA_SCRIPT_HTML = """<script>
+(function(){
+  "use strict";
+  if ("serviceWorker" in navigator){
+    window.addEventListener("load", function(){
+      navigator.serviceWorker.register("sw.js").catch(function(){});
+    });
+  }
+  var deferredPrompt = null;
+  var toast = document.getElementById("install-toast");
+  var acceptBtn = document.getElementById("install-accept");
+  var dismissBtn = document.getElementById("install-dismiss");
+  var DISMISS_KEY = "gw-install-dismissed";
+  window.addEventListener("beforeinstallprompt", function(e){
+    e.preventDefault();
+    deferredPrompt = e;
+    var dismissed = false;
+    try { dismissed = localStorage.getItem(DISMISS_KEY) === "1"; } catch(err){}
+    if (!dismissed && toast) toast.classList.add("is-open");
+  });
+  if (acceptBtn){
+    acceptBtn.addEventListener("click", function(){
+      if (toast) toast.classList.remove("is-open");
+      if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; }
+    });
+  }
+  if (dismissBtn){
+    dismissBtn.addEventListener("click", function(){
+      if (toast) toast.classList.remove("is-open");
+      try { localStorage.setItem(DISMISS_KEY, "1"); } catch(err){}
+    });
+  }
+  window.addEventListener("appinstalled", function(){
+    if (toast) toast.classList.remove("is-open");
+  });
+})();
+</script>"""
 
 HEADER_TOOLS_HTML = """<div class="header-tools">
         <button class="icon-btn palette-btn" id="palette-btn" aria-label="Search pages" aria-keyshortcuts="Control+K">
@@ -179,6 +239,7 @@ def nav_html(active):
         <div class="mm-section"><h4>Take Action</h4>%s</div>
         <div class="mm-section"><h4>Go further</h4>
           <a href="data-explorer.html">Data Explorer</a>
+          <a href="simulator.html">Climate Simulator</a>
           <a href="quiz.html">Quiz</a>
           <a href="glossary.html">Glossary</a>
           <a href="about.html">About</a>
@@ -239,6 +300,7 @@ FOOTER_HTML = """<footer class="site-footer">
           <li><a href="class-dashboard.html">Class Dashboard</a></li>
           <li><a href="for-teachers.html">For Teachers</a></li>
           <li><a href="data-explorer.html">Data Explorer</a></li>
+          <li><a href="simulator.html">Climate Simulator</a></li>
           <li><a href="quiz.html">Quiz</a></li>
           <li><a href="glossary.html">Glossary</a></li>
           <li><a href="about.html">About Babatunde</a></li>
@@ -282,16 +344,24 @@ def readout(cells):
         except (TypeError, ValueError):
             numeric = False
         if numeric:
+            id_attr = ' id="%s"' % c["id"] if c.get("id") else ""
+            badge_html = (
+                '<span class="live-badge" id="%s" hidden>Live</span>' % c["badge_id"]
+                if c.get("badge_id")
+                else ""
+            )
             parts.append(
                 '<div class="readout-cell"><span class="ro-label">%s</span>'
-                '<span class="ro-value js-counter%s" data-target="%s" data-decimals="%s" data-prefix="%s" data-suffix="%s">0</span></div>'
+                '<span class="ro-value js-counter%s"%s data-target="%s" data-decimals="%s" data-prefix="%s" data-suffix="%s">0</span>%s</div>'
                 % (
                     c["label"],
                     tone_cls,
+                    id_attr,
                     value,
                     c.get("decimals", 0),
                     c.get("prefix", ""),
                     c.get("suffix", ""),
+                    badge_html,
                 )
             )
         else:
@@ -337,6 +407,7 @@ def page(filename, title, description, active, hero_html, body_html, extra_head=
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="stylesheet" href="css/styles.css">
 %s
+%s
 </head>
 <body>
 %s
@@ -349,7 +420,9 @@ def page(filename, title, description, active, hero_html, body_html, extra_head=
 %s
 %s
 %s
+%s
 <script src="js/main.js"></script>
+%s
 %s
 </body>
 </html>""" % (
@@ -357,6 +430,7 @@ def page(filename, title, description, active, hero_html, body_html, extra_head=
         description,
         THEME_INIT_SCRIPT,
         FONTS,
+        PWA_HEAD_HTML,
         extra_head,
         SCROLL_PROGRESS_HTML,
         nav_html(active),
@@ -365,7 +439,9 @@ def page(filename, title, description, active, hero_html, body_html, extra_head=
         FOOTER_HTML,
         BACK_TO_TOP_HTML,
         PALETTE_HTML,
+        INSTALL_TOAST_HTML,
         extra_scripts,
+        PWA_SCRIPT_HTML,
     )
     with open(os.path.join(OUT_DIR, filename), "w", encoding="utf-8") as f:
         f.write(html)
@@ -1175,7 +1251,8 @@ data_hero = hero_block(
     lede="Three real, sourced datasets, visualised: the long climb of atmospheric CO2, the warmest years on record, and how fast renewables are growing, plus Nigeria's own 2025 flood numbers.",
     ctas_html='<a href="quiz.html" class="btn btn-primary">Next: take the quiz →</a>',
     media_html="", readout_cells=[
-        {"label": "CO2, Mauna Loa, 2025", "value": "427.4", "decimals": 1, "suffix": " ppm", "tone": "warm"},
+        {"label": "CO2, Mauna Loa, 2025", "value": "427.4", "decimals": 1, "suffix": " ppm", "tone": "warm",
+         "id": "hero-co2-value", "badge_id": "hero-co2-badge"},
         {"label": "3 warmest years on record", "value": "2023", "decimals": 0, "suffix": " to 2025", "tone": "alert"},
     ],
     narrow=True,
@@ -1189,6 +1266,13 @@ data_body = """
       <p class="chart-meta">Live, right now, defaults to Ibadan, or search any city</p>
       <div id="weather-mount"></div>
       <p class="source-note">Weather data: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> (free, no key, CC BY 4.0). One important distinction: this is <strong>weather</strong>, today, one place. The charts below are <strong>climate</strong>, decades, the whole planet. A hot or rainy day here says nothing about global warming on its own; see <a href="what-is-global-warming.html">Weather vs. Climate</a>.</p>
+    </div>
+
+    <div class="chart-card reveal">
+      <h3>📡 Live right now</h3>
+      <p class="chart-meta">Fetched fresh on every visit, this is the site checking its own knowledge base against the real, current data</p>
+      <div class="live-readings" id="live-readings"><p class="chart-meta">Live figures are loading&hellip;</p></div>
+      <p class="source-note">Source: <a href="https://global-warming.org/" target="_blank" rel="noopener">global-warming.org</a>'s free API, itself republishing NOAA Mauna Loa CO2 and NASA GISTEMP global temperature data.</p>
     </div>
 
     <div class="chart-card reveal">
@@ -1237,7 +1321,74 @@ page(
     active="data",
     hero_html=data_hero,
     body_html=data_body,
-    extra_scripts='<script src="js/weather.js"></script>\n<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>\n<script src="js/charts.js"></script>',
+    extra_scripts='<script src="js/weather.js"></script>\n<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>\n<script src="js/charts.js"></script>\n<script src="js/live-data.js"></script>',
+)
+
+# =========================================================
+# CLIMATE SIMULATOR
+# =========================================================
+sim_hero = hero_block(
+    eyebrow="Go further · Try it yourself",
+    h1="The Climate Simulator",
+    lede="Drag the CO2 slider and watch it happen: more CO2 molecules in the atmosphere band mean more heat gets bounced back to the surface instead of escaping to space. This is a simplified, illustrative model, not a forecast, built on the same logarithmic CO2-warming relationship climate scientists actually use.",
+    ctas_html='<a href="quiz.html" class="btn btn-primary">Next: take the quiz →</a>',
+    media_html="", readout_cells=[
+        {"label": "Today's CO2 level", "value": "427", "decimals": 0, "suffix": " ppm", "tone": "warm"},
+        {"label": "Pre-industrial baseline", "value": "280", "decimals": 0, "suffix": " ppm", "tone": ""},
+    ],
+    narrow=True,
+)
+
+sim_body = """
+<section class="section">
+  <div class="wrap">
+    <div class="sim-panel reveal">
+      <div class="sim-stage">
+        <canvas id="sim-canvas" role="img" aria-label="Animated diagram of sunlight reaching the ground and re-radiating as heat, some of which is bounced back by greenhouse-gas molecules"></canvas>
+      </div>
+      <div class="sim-controls">
+        <div class="sim-slider-row">
+          <input type="range" id="sim-co2-slider" min="280" max="1000" step="1" value="427" aria-label="Atmospheric CO2, parts per million">
+          <span class="sim-ppm-readout" id="sim-ppm-readout">427 ppm</span>
+        </div>
+        <p class="sim-milestone" id="sim-milestone-label">Today (2025 Mauna Loa annual mean)</p>
+        <div class="sim-presets">
+          <button type="button" class="sim-preset" data-ppm="280">Pre-industrial (1850)</button>
+          <button type="button" class="sim-preset" data-ppm="427">Today (2025)</button>
+          <button type="button" class="sim-preset" data-ppm="450">1.5°C pathway (~450)</button>
+          <button type="button" class="sim-preset" data-ppm="560">Double CO2 (560)</button>
+          <button type="button" class="sim-preset" data-ppm="800">High-emissions 2100 (~800)</button>
+        </div>
+      </div>
+      <div class="sim-stats">
+        <div class="sim-stat"><div class="ss-l">CO2 level</div><div class="ss-v" id="sim-ppm-readout-2">—</div></div>
+        <div class="sim-stat"><div class="ss-l">Estimated warming</div><div class="ss-v" id="sim-warming-readout">—</div></div>
+        <div class="sim-stat"><div class="ss-l">Heat still escaping</div><div class="ss-v" id="sim-escape-readout">—</div></div>
+      </div>
+    </div>
+
+    <div class="callout callout--note reveal">
+      <span class="callout-label">How this simulator works</span>
+      <p>The warming estimate uses <strong>ΔT = TCR × log₂(CO2 ÷ 280)</strong>, the standard logarithmic relationship between CO2 concentration and warming, with TCR (Transient Climate Response) set to 1.8°C, inside the IPCC AR6 likely range. It is a genuine simplification of real climate science for a first-hand, hands-on feel, not a prediction of what will actually happen, real projections depend on how fast CO2 rises, ocean heat uptake, aerosols, and feedback loops the model above doesn't attempt to capture.</p>
+    </div>
+
+    <div class="callout callout--try reveal" style="text-align:center;">
+      <span class="callout-label">Compare it to the real record</span>
+      <p>The Data Explorer shows the actual measured CO2 curve and the live reading right now, and the 8-lesson course explains why the greenhouse effect works the way this simulator shows.</p>
+      <a href="data-explorer.html" class="btn btn-ghost" style="margin-top:8px;">📊 Open the Data Explorer</a>
+    </div>
+  </div>
+</section>
+"""
+
+page(
+    filename="simulator.html",
+    title="Climate Simulator",
+    description="An interactive, hands-on greenhouse-effect simulator: drag the CO2 slider and watch heat get trapped, built on the real logarithmic CO2-warming relationship.",
+    active="simulator",
+    hero_html=sim_hero,
+    body_html=sim_body,
+    extra_scripts='<script src="js/simulator.js"></script>',
 )
 
 # =========================================================

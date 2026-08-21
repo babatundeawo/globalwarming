@@ -20,6 +20,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="stylesheet" href="css/styles.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0E5C56" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B1815" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GW Explorer">
+<link rel="apple-touch-icon" href="images/icons/icon-192.png">
 
 </head>
 <body>
@@ -49,6 +56,7 @@
 <a href="action-hub.html">Action Hub</a></div>
         </div>
         <a class="nav-link" href="data-explorer.html">Data Explorer</a>
+<a class="nav-link" href="simulator.html">Simulator</a>
 <a class="nav-link" href="quiz.html">Quiz</a>
 <a class="nav-link" href="glossary.html">Glossary</a>
       </div>
@@ -86,6 +94,7 @@
 <a href="action-hub.html">Action Hub</a></div>
         <div class="mm-section"><h4>Go further</h4>
           <a href="data-explorer.html">Data Explorer</a>
+          <a href="simulator.html">Climate Simulator</a>
           <a href="quiz.html">Quiz</a>
           <a href="glossary.html">Glossary</a>
           <a href="about.html">About</a>
@@ -201,6 +210,7 @@
           <li><a href="class-dashboard.html">Class Dashboard</a></li>
           <li><a href="for-teachers.html">For Teachers</a></li>
           <li><a href="data-explorer.html">Data Explorer</a></li>
+          <li><a href="simulator.html">Climate Simulator</a></li>
           <li><a href="quiz.html">Quiz</a></li>
           <li><a href="glossary.html">Glossary</a></li>
           <li><a href="about.html">About Babatunde</a></li>
@@ -228,8 +238,56 @@
     <div class="palette-results" id="palette-results"></div>
   </div>
 </div>
-<script>window.SITE_PAGES = [{"icon": "\ud83c\udfe0", "title": "Home", "desc": "Free-roam entry point and site overview", "href": "index.html", "group": "Start"}, {"icon": "\ud83c\udf93", "title": "8-Lesson Course", "desc": "The same material, sequenced with worksheets", "href": "course.html", "group": "Start"}, {"icon": "\ud83c\udf0d", "title": "What Is Global Warming?", "desc": "The greenhouse effect, explained simply", "href": "what-is-global-warming.html", "group": "Learn"}, {"icon": "\ud83c\udfed", "title": "Causes", "desc": "What is actually filling the atmosphere, ranked", "href": "causes.html", "group": "Learn"}, {"icon": "\ud83c\udf0a", "title": "Effects", "desc": "Worldwide impacts, and Nigeria's 2025 floods and heat", "href": "effects.html", "group": "Learn"}, {"icon": "\u2764\ufe0f", "title": "Why Should We Care?", "desc": "Climate justice and why it matters close to home", "href": "why-care.html", "group": "Learn"}, {"icon": "\ud83e\uddee", "title": "Carbon Footprint Calculator", "desc": "Estimate your own footprint in two minutes", "href": "carbon-footprint.html", "group": "Take Action"}, {"icon": "\u267b\ufe0f", "title": "Reduce, Reuse, Recycle", "desc": "The three Rs, in the order that matters", "href": "recycle.html", "group": "Take Action"}, {"icon": "\u2600\ufe0f", "title": "Clean Energy", "desc": "Solar, wind, and Nigeria's untapped opportunity", "href": "clean-energy.html", "group": "Take Action"}, {"icon": "\u2705", "title": "Action Hub", "desc": "A tickable checklist of real actions", "href": "action-hub.html", "group": "Take Action"}, {"icon": "\ud83d\udcca", "title": "Data Explorer", "desc": "Live weather plus CO2, temperature and renewables charts", "href": "data-explorer.html", "group": "Go further"}, {"icon": "\ud83c\udfaf", "title": "Quiz", "desc": "Ten questions testing what you have learned", "href": "quiz.html", "group": "Go further"}, {"icon": "\ud83d\udcd6", "title": "Glossary & Sources", "desc": "Every tricky term, plus where the numbers come from", "href": "glossary.html", "group": "Go further"}, {"icon": "1\ufe0f\u20e3", "title": "Lesson 1", "desc": "The greenhouse effect", "href": "lesson-1.html", "group": "Course"}, {"icon": "2\ufe0f\u20e3", "title": "Lesson 2", "desc": "What causes global warming", "href": "lesson-2.html", "group": "Course"}, {"icon": "3\ufe0f\u20e3", "title": "Lesson 3", "desc": "Effects, worldwide and at home", "href": "lesson-3.html", "group": "Course"}, {"icon": "4\ufe0f\u20e3", "title": "Lesson 4", "desc": "Why we should care", "href": "lesson-4.html", "group": "Course"}, {"icon": "5\ufe0f\u20e3", "title": "Lesson 5", "desc": "Your carbon footprint", "href": "lesson-5.html", "group": "Course"}, {"icon": "6\ufe0f\u20e3", "title": "Lesson 6", "desc": "Reduce, reuse, recycle", "href": "lesson-6.html", "group": "Course"}, {"icon": "7\ufe0f\u20e3", "title": "Lesson 7", "desc": "Clean energy", "href": "lesson-7.html", "group": "Course"}, {"icon": "8\ufe0f\u20e3", "title": "Lesson 8", "desc": "Taking action", "href": "lesson-8.html", "group": "Course"}, {"icon": "\ud83c\udfc6", "title": "Certificate", "desc": "Download a Certificate of Completion", "href": "certificate.html", "group": "Course"}, {"icon": "\ud83d\udcee", "title": "Check In", "desc": "Send your progress to your teacher on GitHub", "href": "checkin.html", "group": "Course"}, {"icon": "\ud83d\udccb", "title": "Class Dashboard", "desc": "Auto-updating roster of student check-ins", "href": "class-dashboard.html", "group": "Course"}, {"icon": "\ud83e\uddd1\u200d\ud83c\udfeb", "title": "For Teachers", "desc": "Lesson plan, pacing guide and setup", "href": "for-teachers.html", "group": "Course"}, {"icon": "\ud83d\udc64", "title": "About", "desc": "Meet Babatunde Awoyemi and Techbase", "href": "about.html", "group": "About"}];</script>
+<script>window.SITE_PAGES = [{"icon": "\ud83c\udfe0", "title": "Home", "desc": "Free-roam entry point and site overview", "href": "index.html", "group": "Start"}, {"icon": "\ud83c\udf93", "title": "8-Lesson Course", "desc": "The same material, sequenced with worksheets", "href": "course.html", "group": "Start"}, {"icon": "\ud83c\udf0d", "title": "What Is Global Warming?", "desc": "The greenhouse effect, explained simply", "href": "what-is-global-warming.html", "group": "Learn"}, {"icon": "\ud83c\udfed", "title": "Causes", "desc": "What is actually filling the atmosphere, ranked", "href": "causes.html", "group": "Learn"}, {"icon": "\ud83c\udf0a", "title": "Effects", "desc": "Worldwide impacts, and Nigeria's 2025 floods and heat", "href": "effects.html", "group": "Learn"}, {"icon": "\u2764\ufe0f", "title": "Why Should We Care?", "desc": "Climate justice and why it matters close to home", "href": "why-care.html", "group": "Learn"}, {"icon": "\ud83e\uddee", "title": "Carbon Footprint Calculator", "desc": "Estimate your own footprint in two minutes", "href": "carbon-footprint.html", "group": "Take Action"}, {"icon": "\u267b\ufe0f", "title": "Reduce, Reuse, Recycle", "desc": "The three Rs, in the order that matters", "href": "recycle.html", "group": "Take Action"}, {"icon": "\u2600\ufe0f", "title": "Clean Energy", "desc": "Solar, wind, and Nigeria's untapped opportunity", "href": "clean-energy.html", "group": "Take Action"}, {"icon": "\u2705", "title": "Action Hub", "desc": "A tickable checklist of real actions", "href": "action-hub.html", "group": "Take Action"}, {"icon": "\ud83d\udcca", "title": "Data Explorer", "desc": "Live weather plus CO2, temperature and renewables charts", "href": "data-explorer.html", "group": "Go further"}, {"icon": "\ud83e\uddea", "title": "Climate Simulator", "desc": "Drag the CO2 slider and watch the greenhouse effect happen", "href": "simulator.html", "group": "Go further"}, {"icon": "\ud83c\udfaf", "title": "Quiz", "desc": "Ten questions testing what you have learned", "href": "quiz.html", "group": "Go further"}, {"icon": "\ud83d\udcd6", "title": "Glossary & Sources", "desc": "Every tricky term, plus where the numbers come from", "href": "glossary.html", "group": "Go further"}, {"icon": "1\ufe0f\u20e3", "title": "Lesson 1", "desc": "The greenhouse effect", "href": "lesson-1.html", "group": "Course"}, {"icon": "2\ufe0f\u20e3", "title": "Lesson 2", "desc": "What causes global warming", "href": "lesson-2.html", "group": "Course"}, {"icon": "3\ufe0f\u20e3", "title": "Lesson 3", "desc": "Effects, worldwide and at home", "href": "lesson-3.html", "group": "Course"}, {"icon": "4\ufe0f\u20e3", "title": "Lesson 4", "desc": "Why we should care", "href": "lesson-4.html", "group": "Course"}, {"icon": "5\ufe0f\u20e3", "title": "Lesson 5", "desc": "Your carbon footprint", "href": "lesson-5.html", "group": "Course"}, {"icon": "6\ufe0f\u20e3", "title": "Lesson 6", "desc": "Reduce, reuse, recycle", "href": "lesson-6.html", "group": "Course"}, {"icon": "7\ufe0f\u20e3", "title": "Lesson 7", "desc": "Clean energy", "href": "lesson-7.html", "group": "Course"}, {"icon": "8\ufe0f\u20e3", "title": "Lesson 8", "desc": "Taking action", "href": "lesson-8.html", "group": "Course"}, {"icon": "\ud83c\udfc6", "title": "Certificate", "desc": "Download a Certificate of Completion", "href": "certificate.html", "group": "Course"}, {"icon": "\ud83d\udcee", "title": "Check In", "desc": "Send your progress to your teacher on GitHub", "href": "checkin.html", "group": "Course"}, {"icon": "\ud83d\udccb", "title": "Class Dashboard", "desc": "Auto-updating roster of student check-ins", "href": "class-dashboard.html", "group": "Course"}, {"icon": "\ud83e\uddd1\u200d\ud83c\udfeb", "title": "For Teachers", "desc": "Lesson plan, pacing guide and setup", "href": "for-teachers.html", "group": "Course"}, {"icon": "\ud83d\udc64", "title": "About", "desc": "Meet Babatunde Awoyemi and Techbase", "href": "about.html", "group": "About"}];</script>
+<div class="install-toast" id="install-toast" role="dialog" aria-label="Install this site">
+  <div class="it-ico" aria-hidden="true">🌍</div>
+  <div class="it-body">
+    <div class="it-title">Install Global Warming Explorer</div>
+    <div class="it-desc">Add it to your home screen or desktop, works offline too.</div>
+  </div>
+  <div class="it-actions">
+    <button type="button" class="it-dismiss" id="install-dismiss">Not now</button>
+    <button type="button" class="it-install" id="install-accept">Install</button>
+  </div>
+</div>
 <script src="js/main.js"></script>
 <script src="js/progress.js"></script>
+<script>
+(function(){
+  "use strict";
+  if ("serviceWorker" in navigator){
+    window.addEventListener("load", function(){
+      navigator.serviceWorker.register("sw.js").catch(function(){});
+    });
+  }
+  var deferredPrompt = null;
+  var toast = document.getElementById("install-toast");
+  var acceptBtn = document.getElementById("install-accept");
+  var dismissBtn = document.getElementById("install-dismiss");
+  var DISMISS_KEY = "gw-install-dismissed";
+  window.addEventListener("beforeinstallprompt", function(e){
+    e.preventDefault();
+    deferredPrompt = e;
+    var dismissed = false;
+    try { dismissed = localStorage.getItem(DISMISS_KEY) === "1"; } catch(err){}
+    if (!dismissed && toast) toast.classList.add("is-open");
+  });
+  if (acceptBtn){
+    acceptBtn.addEventListener("click", function(){
+      if (toast) toast.classList.remove("is-open");
+      if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; }
+    });
+  }
+  if (dismissBtn){
+    dismissBtn.addEventListener("click", function(){
+      if (toast) toast.classList.remove("is-open");
+      try { localStorage.setItem(DISMISS_KEY, "1"); } catch(err){}
+    });
+  }
+  window.addEventListener("appinstalled", function(){
+    if (toast) toast.classList.remove("is-open");
+  });
+})();
+</script>
 </body>
 </html>

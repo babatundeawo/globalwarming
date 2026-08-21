@@ -800,3 +800,84 @@ a:focus-visible, button:focus-visible, input:focus-visible, .quiz-opt:focus-visi
 .palette-item.is-active, .palette-item:hover{ background:var(--teal-100); }
 .palette-item.is-active .pi-title, .palette-item:hover .pi-title{ color:var(--teal-700); }
 .palette-empty{ padding:24px 12px; text-align:center; color:var(--ink-faint); font-size:.9rem; }
+
+/* =========================================================
+   2026 modernisation pass 2: PWA install prompt, live-data
+   badges, and the Climate Simulator
+   ========================================================= */
+
+/* ---- installable-app prompt (shown by js/main.js via beforeinstallprompt) ---- */
+.install-toast{
+  position:fixed; left:16px; right:16px; bottom:16px; z-index:70;
+  max-width:420px; margin:0 auto;
+  background:var(--paper-raised); border:1px solid var(--line-soft); border-radius:14px;
+  box-shadow:var(--shadow-lg); padding:16px; display:flex; align-items:center; gap:12px;
+  transform:translateY(120%); transition:transform .25s ease;
+}
+.install-toast.is-open{ transform:translateY(0); }
+.install-toast .it-ico{ font-size:1.6rem; flex:none; }
+.install-toast .it-body{ flex:1; min-width:0; }
+.install-toast .it-title{ font-weight:800; font-size:.92rem; }
+.install-toast .it-desc{ font-size:.78rem; color:var(--ink-faint); margin-top:1px; }
+.install-toast .it-actions{ display:flex; gap:8px; flex:none; }
+.install-toast .it-actions button{
+  border:none; border-radius:8px; padding:8px 12px; font-family:inherit; font-weight:700; font-size:.82rem; cursor:pointer;
+}
+.install-toast .it-install{ background:var(--teal-700); color:#fff; }
+.install-toast .it-install:hover{ background:var(--teal-deep); }
+.install-toast .it-dismiss{ background:transparent; color:var(--ink-faint); }
+.install-toast .it-dismiss:hover{ color:var(--ink); }
+@media (min-width:640px){ .install-toast{ left:auto; right:20px; bottom:20px; } }
+
+/* ---- live-data badge (Data Explorer hero + panel) ---- */
+.live-badge{
+  display:inline-flex; align-items:center; gap:6px; font-family:"JetBrains Mono",monospace;
+  font-size:.68rem; font-weight:600; letter-spacing:.03em; color:var(--teal-700);
+  background:var(--teal-100); border:1px solid var(--teal-200); border-radius:999px; padding:3px 9px; margin-top:6px;
+}
+.live-badge::before{
+  content:""; width:6px; height:6px; border-radius:50%; background:#1FAA5C; flex:none;
+  animation: live-pulse 1.8s ease-in-out infinite;
+}
+@keyframes live-pulse{ 0%,100%{ opacity:1; } 50%{ opacity:.35; } }
+
+.live-readings{ display:grid; gap:14px; margin-top:10px; }
+.live-row{ display:flex; align-items:flex-start; gap:10px; }
+.live-dot{ width:9px; height:9px; border-radius:50%; background:#1FAA5C; margin-top:6px; flex:none; animation: live-pulse 1.8s ease-in-out infinite; }
+.live-label{ font-size:.78rem; color:var(--ink-faint); font-weight:600; }
+.live-value{ font-family:"Space Grotesk",sans-serif; font-size:1.5rem; font-weight:700; color:var(--ink); line-height:1.2; }
+.live-meta{ font-size:.74rem; color:var(--ink-faint); margin-top:1px; }
+
+/* ---- Climate Simulator ---- */
+.sim-panel{
+  background:var(--paper-raised); border:1px solid var(--line-soft); border-radius:var(--radius);
+  padding:24px; box-shadow:var(--shadow); margin-bottom:28px;
+}
+.sim-stage{ position:relative; border-radius:12px; overflow:hidden; border:1px solid var(--line-soft); background:var(--teal-100); }
+#sim-canvas{ display:block; width:100%; height:min(58vw, 340px); }
+.sim-controls{ margin-top:18px; }
+.sim-slider-row{ display:flex; align-items:center; gap:14px; }
+.sim-slider-row input[type="range"]{
+  flex:1; appearance:none; -webkit-appearance:none; height:8px; border-radius:999px;
+  background:linear-gradient(90deg, var(--teal-500), var(--amber-500), #C8432F);
+  outline:none; cursor:pointer;
+}
+.sim-slider-row input[type="range"]::-webkit-slider-thumb{
+  appearance:none; -webkit-appearance:none; width:22px; height:22px; border-radius:50%;
+  background:#fff; border:3px solid var(--teal-700); cursor:pointer; box-shadow:var(--shadow);
+}
+.sim-slider-row input[type="range"]::-moz-range-thumb{
+  width:22px; height:22px; border-radius:50%; background:#fff; border:3px solid var(--teal-700); cursor:pointer; box-shadow:var(--shadow);
+}
+.sim-ppm-readout{ font-family:"JetBrains Mono",monospace; font-weight:700; font-size:.95rem; color:var(--teal-700); min-width:84px; text-align:right; }
+.sim-milestone{ margin-top:8px; font-size:.85rem; color:var(--ink-faint); min-height:1.2em; }
+.sim-presets{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+.sim-preset{
+  border:1px solid var(--line); background:transparent; color:var(--ink); border-radius:999px;
+  padding:6px 13px; font-family:inherit; font-size:.78rem; font-weight:700; cursor:pointer; transition:border-color .15s ease, color .15s ease;
+}
+.sim-preset:hover{ border-color:var(--teal-700); color:var(--teal-700); }
+.sim-stats{ display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:14px; margin-top:20px; }
+.sim-stat{ background:var(--teal-100); border-radius:10px; padding:14px; text-align:center; }
+.sim-stat .ss-l{ font-size:.72rem; color:var(--ink-faint); font-weight:700; text-transform:uppercase; letter-spacing:.05em; }
+.sim-stat .ss-v{ font-family:"Space Grotesk",sans-serif; font-size:1.5rem; font-weight:700; color:var(--teal-700); margin-top:4px; }

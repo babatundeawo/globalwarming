@@ -43,6 +43,47 @@ screen size, without touching the free, no-build-step architecture:
 - Every em dash and en dash in the copy has been rewritten with clearer
   punctuation (colons, semicolons, or plain "to" for ranges).
 
+## 2026 modernisation pass, part 2: installable app + hands-on tools
+
+[#2026-modernisation-pass-part-2-installable-app--hands-on-tools](#2026-modernisation-pass-part-2-installable-app--hands-on-tools)
+
+Still zero build tools, zero frameworks, just three new static files and
+some small template additions:
+
+- **Installable on PC and mobile (PWA)** — `manifest.json` + `sw.js` (a
+  service worker) mean visitors on Chrome, Edge, or Android/Chrome on
+  mobile get an "Install" prompt (a toast in the bottom corner) that adds
+  the site as a real app with its own icon, no browser chrome. iOS Safari
+  supports "Add to Home Screen" from the share sheet the same way.
+  Every page that's been visited once keeps working with no connection at
+  all, only the genuinely live bits (weather, live CO2/temperature,
+  fonts, the Chart.js CDN) require a network, and the service worker
+  deliberately never caches those, so they never go stale. Bump
+  `CACHE_VERSION` at the top of `sw.js` after any content change so
+  returning visitors get the update.
+- **The Climate Simulator** (`simulator.html`, `js/simulator.js`) — a new,
+  hands-on page: drag a CO2 slider from 280 to 1000 ppm and watch a small
+  canvas animation show sunlight reaching the ground, re-radiating as
+  heat, and more of it bouncing back down as CO2 rises. The warming
+  number next to it uses the real logarithmic CO2-forcing relationship
+  (ΔT = TCR × log₂(CO2 ÷ 280), TCR = 1.8°C, inside IPCC AR6's likely
+  range), clearly labelled as a simplified educational model, not a
+  forecast.
+- **A self-updating knowledge base** — `js/live-data.js` fetches the
+  current CO2 ppm and the latest monthly global temperature anomaly from
+  global-warming.org's free, keyless API (itself republishing NOAA Mauna
+  Loa and NASA GISTEMP data) on every visit to `data-explorer.html`, and
+  drops them into a new "Live right now" panel and onto the CO2 chart as
+  an extra "live" point. If the fetch fails or the visitor is offline,
+  the page quietly falls back to the baked-in 2025 figures, nothing
+  breaks.
+
+**Nothing to configure**, these three files (`manifest.json`, `sw.js`,
+`js/live-data.js`, `js/simulator.js`, `simulator.html`) just need to be
+uploaded alongside everything else. If you ever add or rename an `.html`
+page, add it to the `APP_SHELL` list near the top of `sw.js` too, so it
+gets cached for offline use.
+
 ## ✅ Already configured for this repo
 
 `js/checkin.js` is pointed at:
