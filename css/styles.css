@@ -87,7 +87,7 @@ body, .site-header, .card, .tool-panel, .quiz-card, .quiz-opt, .callout, .fact,
 
 /* --- reset --- */
 *,*::before,*::after{ box-sizing:border-box; }
-html{ scroll-behavior:smooth; overflow-x:hidden; max-width:100%; }
+html{ scroll-behavior:smooth; overflow-x:hidden; max-width:100%; -webkit-text-size-adjust:100%; text-size-adjust:100%; }
 body{
   margin:0;
   background:var(--paper);
