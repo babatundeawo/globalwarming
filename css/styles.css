@@ -87,7 +87,7 @@ body, .site-header, .card, .tool-panel, .quiz-card, .quiz-opt, .callout, .fact,
 
 /* --- reset --- */
 *,*::before,*::after{ box-sizing:border-box; }
-html{ scroll-behavior:smooth; }
+html{ scroll-behavior:smooth; overflow-x:hidden; max-width:100%; }
 body{
   margin:0;
   background:var(--paper);
@@ -96,6 +96,9 @@ body{
   font-size:16.5px;
   line-height:1.6;
   -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  max-width:100%;
+  padding-top:68px;
 }
 img{ max-width:100%; display:block; }
 a{ color:inherit; text-decoration:none; }
@@ -160,7 +163,8 @@ p{ margin:0 0 1em; color:var(--ink-soft); }
    NAV
    ========================================================= */
 .site-header{
-  position:sticky; top:0; z-index:50;
+  position:fixed; top:0; left:0; right:0; z-index:50;
+  width:100%; max-width:100vw;
   background:var(--header-bg);
   backdrop-filter:saturate(140%) blur(14px);
   -webkit-backdrop-filter:saturate(140%) blur(14px);
@@ -174,9 +178,9 @@ p{ margin:0 0 1em; color:var(--ink-soft); }
 .nav{
   max-width:var(--maxw); margin:0 auto; padding:0 24px;
   display:flex; align-items:center; justify-content:space-between;
-  height:68px; gap:20px;
+  height:68px; gap:12px; width:100%; max-width:100%;
 }
-.brand{ display:flex; align-items:center; gap:.65em; font-weight:700; font-family:"Space Grotesk",sans-serif; font-size:1.02rem; flex:none; }
+.brand{ display:flex; align-items:center; gap:.65em; font-weight:700; font-family:"Space Grotesk",sans-serif; font-size:1.02rem; flex:1 1 auto; min-width:0; overflow:hidden; }
 .brand .mark{
   width:32px; height:32px; border-radius:9px;
   background:linear-gradient(135deg, var(--teal-700), var(--amber-500));
@@ -186,7 +190,8 @@ p{ margin:0 0 1em; color:var(--ink-soft); }
   transition:transform .2s ease;
 }
 .brand:hover .mark{ transform:rotate(-6deg) scale(1.05); }
-.brand small{ display:block; font-family:"Plus Jakarta Sans",sans-serif; font-weight:500; font-size:.65rem; color:var(--ink-faint); letter-spacing:.02em; margin-top:1px; }
+.brand > span{ min-width:0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.brand small{ display:block; font-family:"Plus Jakarta Sans",sans-serif; font-weight:500; font-size:.65rem; color:var(--ink-faint); letter-spacing:.02em; margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 
 .nav-desktop{ display:flex; align-items:center; gap:2px; flex:1; min-width:0; }
 .nav-link{
@@ -271,6 +276,15 @@ p{ margin:0 0 1em; color:var(--ink-soft); }
 }
 @media (min-width: 881px){
   .mobile-menu, .mobile-menu-backdrop{ display:none !important; }
+}
+@media (max-width: 560px){
+  .brand small{ display:none; }
+  .nav-cta .btn-ghost{ display:none; }
+  .nav{ gap:8px; padding:0 16px; }
+}
+@media (max-width: 400px){
+  .brand{ font-size:.92rem; }
+  .brand .mark{ width:28px; height:28px; font-size:.8rem; }
 }
 
 /* =========================================================

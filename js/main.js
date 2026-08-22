@@ -7,6 +7,32 @@
   var mobileMenu = document.getElementById("mobile-menu");
   var backdrop = document.getElementById("mobile-menu-backdrop");
   var closeBtn = document.getElementById("mobile-menu-close");
+  var scrollLockY = 0;
+  var scrollLockCount = 0;
+
+  function lockBodyScroll(){
+    if (scrollLockCount === 0){
+      scrollLockY = window.scrollY || document.documentElement.scrollTop || 0;
+      document.body.style.position = "fixed";
+      document.body.style.top = (-scrollLockY) + "px";
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.width = "100%";
+    }
+    scrollLockCount++;
+  }
+  function unlockBodyScroll(){
+    if (scrollLockCount <= 0) return;
+    scrollLockCount--;
+    if (scrollLockCount === 0){
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
+      window.scrollTo(0, scrollLockY);
+    }
+  }
 
   function setMenu(open){
     if (!mobileMenu) return;
@@ -16,7 +42,7 @@
       menuBtn.classList.toggle("is-open", open);
       menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
     }
-    document.body.style.overflow = open ? "hidden" : "";
+    if (open) lockBodyScroll(); else unlockBodyScroll();
   }
 
   if (menuBtn && mobileMenu){
@@ -206,13 +232,13 @@
     if (!paletteBackdrop) return;
     renderPalette("");
     paletteBackdrop.classList.add("is-open");
-    document.body.style.overflow = "hidden";
+    lockBodyScroll();
     if (paletteInput){ paletteInput.value = ""; paletteInput.focus(); }
   }
   function closePalette(){
     if (!paletteBackdrop) return;
     paletteBackdrop.classList.remove("is-open");
-    document.body.style.overflow = "";
+    unlockBodyScroll();
   }
 
   if (paletteBackdrop){
