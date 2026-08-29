@@ -19,6 +19,7 @@ TOKEN = os.environ.get("GITHUB_TOKEN", "")
 OUT_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "roster-data.json")
 
 NAME_RE = re.compile(r"\*\*Name:\*\*\s*(.+)")
+CLASS_RE = re.compile(r"\*\*Class:\*\*\s*(.+)")
 PROGRESS_RE = re.compile(r"\*\*Progress:\*\*\s*(\d+)\s*of\s*8")
 LESSON_RE = re.compile(r"-\s*Lesson\s*(\d+):")
 
@@ -63,10 +64,12 @@ def parse_checkin(issue):
     name_m = NAME_RE.search(body)
     if not name_m:
         return None
+    class_m = CLASS_RE.search(body)
     progress_m = PROGRESS_RE.search(body)
     lessons = sorted(set(int(n) for n in LESSON_RE.findall(body)))
     return {
         "name": name_m.group(1).strip()[:80],
+        "class_code": class_m.group(1).strip()[:60] if class_m else "",
         "progress": int(progress_m.group(1)) if progress_m else len(lessons),
         "lessons": lessons,
         "issue_number": issue.get("number"),

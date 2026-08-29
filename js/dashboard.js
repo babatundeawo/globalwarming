@@ -49,36 +49,73 @@
     var checkins = data.checkins || [];
     if (!students.length){ renderEmpty(); return; }
 
-    var avg = students.reduce(function(s, x){ return s + (x.progress || 0); }, 0) / students.length;
-    var finished = students.filter(function(s){ return s.progress >= 8; }).length;
+    var classCodes = Array.from(new Set(
+      students.map(function(s){ return (s.class_code || "").trim(); }).filter(Boolean)
+    )).sort();
 
-    var html = '<div class="grid grid-4 reveal" style="margin-bottom:10px;">' +
-      stat(data.total_students || students.length, "Students checked in") +
-      stat(data.total_checkins || checkins.length, "Total check-ins") +
-      stat(avg.toFixed(1), "Avg. lessons / student") +
-      stat(finished, "Finished all 8") +
-      '</div>';
+    var selectedClass = "";
 
-    html += '<p class="muted" style="font-size:.8rem;margin:0 0 20px;">Last updated ' +
-      escapeHtml(timeAgo(data.generated_at) || "recently") + ' · refreshes automatically</p>';
+    function statsHtml(list){
+      var avg = list.length ? list.reduce(function(s, x){ return s + (x.progress || 0); }, 0) / list.length : 0;
+      var finished = list.filter(function(s){ return s.progress >= 8; }).length;
+      return '<div class="grid grid-4 reveal" style="margin-bottom:10px;">' +
+        stat(list.length, "Students checked in") +
+        stat(checkins.length, "Total check-ins") +
+        stat(list.length ? avg.toFixed(1) : "0", "Avg. lessons / student") +
+        stat(finished, "Finished all 8") +
+        '</div>';
+    }
 
-    html += '<ol class="lesson-list reveal">';
-    students.forEach(function(s){
-      var pct = Math.round(((s.progress || 0) / 8) * 100);
-      var done = (s.progress || 0) >= 8;
-      html += '<li class="lesson-card' + (done ? " is-complete" : "") + '" style="cursor:default;">' +
-        '<span class="ln">' + (s.progress != null ? s.progress : "?") + '</span>' +
-        '<div style="flex:1;min-width:0;">' +
-          '<div class="lc-title">' + escapeHtml(s.name) + '</div>' +
-          '<div class="lc-obj">' + (s.progress || 0) + ' of 8 lessons &middot; last check-in ' + escapeHtml(timeAgo(s.updated_at || s.created_at) || "recently") + '</div>' +
-          '<div class="result-bar" style="margin-top:8px;height:8px;background:var(--line-soft);"><span style="width:' + pct + '%;"></span></div>' +
-        '</div>' +
-        (s.issue_url ? '<a class="lesson-check" href="' + s.issue_url + '" target="_blank" rel="noopener">Issue →</a>' : "") +
-        '</li>';
-    });
-    html += '</ol>';
+    function listHtml(list){
+      var html = '<ol class="lesson-list reveal">';
+      list.forEach(function(s){
+        var pct = Math.round(((s.progress || 0) / 8) * 100);
+        var done = (s.progress || 0) >= 8;
+        var classBadge = s.class_code ? ' &middot; <span class="mono">' + escapeHtml(s.class_code) + '</span>' : "";
+        html += '<li class="lesson-card' + (done ? " is-complete" : "") + '" style="cursor:default;">' +
+          '<span class="ln">' + (s.progress != null ? s.progress : "?") + '</span>' +
+          '<div style="flex:1;min-width:0;">' +
+            '<div class="lc-title">' + escapeHtml(s.name) + '</div>' +
+            '<div class="lc-obj">' + (s.progress || 0) + ' of 8 lessons &middot; last check-in ' + escapeHtml(timeAgo(s.updated_at || s.created_at) || "recently") + classBadge + '</div>' +
+            '<div class="result-bar" style="margin-top:8px;height:8px;background:var(--line-soft);"><span style="width:' + pct + '%;"></span></div>' +
+          '</div>' +
+          (s.issue_url ? '<a class="lesson-check" href="' + s.issue_url + '" target="_blank" rel="noopener">Issue →</a>' : "") +
+          '</li>';
+      });
+      html += '</ol>';
+      return html;
+    }
 
-    mount.innerHTML = html;
+    var filterHtml = "";
+    if (classCodes.length){
+      filterHtml = '<div class="field" style="max-width:320px;margin-bottom:18px;">' +
+        '<label for="dashboard-class-filter">Filter by class / school code</label>' +
+        '<select id="dashboard-class-filter" style="margin-top:6px;">' +
+        '<option value="">All classes (' + students.length + ')</option>' +
+        classCodes.map(function(c){
+          var count = students.filter(function(s){ return (s.class_code || "").trim() === c; }).length;
+          return '<option value="' + escapeHtml(c) + '">' + escapeHtml(c) + ' (' + count + ')</option>';
+        }).join("") +
+        '</select></div>';
+    }
+
+    mount.innerHTML = filterHtml +
+      '<div id="dashboard-stats">' + statsHtml(students) + '</div>' +
+      '<p class="muted" style="font-size:.8rem;margin:0 0 20px;">Last updated ' +
+        escapeHtml(timeAgo(data.generated_at) || "recently") + ' · refreshes automatically</p>' +
+      '<div id="dashboard-list">' + listHtml(students) + '</div>';
+
+    var filterSelect = document.getElementById("dashboard-class-filter");
+    if (filterSelect){
+      filterSelect.addEventListener("change", function(){
+        selectedClass = filterSelect.value;
+        var filtered = selectedClass
+          ? students.filter(function(s){ return (s.class_code || "").trim() === selectedClass; })
+          : students;
+        document.getElementById("dashboard-stats").innerHTML = statsHtml(filtered);
+        document.getElementById("dashboard-list").innerHTML = listHtml(filtered);
+      });
+    }
   }
 
   fetch("roster-data.json", { cache: "no-store" })

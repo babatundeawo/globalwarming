@@ -6,6 +6,19 @@
 <meta name="color-scheme" content="light dark">
 <title>Certificate of Completion · Global Warming Explorer</title>
 <meta name="description" content="Generate and download a Certificate of Completion for the Global Warming Explorer 8-lesson course.">
+<link rel="canonical" href="https://babatundeawo.github.io/globalwarming/certificate.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Global Warming Explorer">
+<meta property="og:title" content="Certificate of Completion · Global Warming Explorer">
+<meta property="og:description" content="Generate and download a Certificate of Completion for the Global Warming Explorer 8-lesson course.">
+<meta property="og:url" content="https://babatundeawo.github.io/globalwarming/certificate.html">
+<meta property="og:image" content="https://babatundeawo.github.io/globalwarming/images/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Certificate of Completion · Global Warming Explorer">
+<meta name="twitter:description" content="Generate and download a Certificate of Completion for the Global Warming Explorer 8-lesson course.">
+<meta name="twitter:image" content="https://babatundeawo.github.io/globalwarming/images/og-image.png">
 <script>
 (function(){
   try{
@@ -144,8 +157,14 @@
     <div class="cert-canvas-wrap reveal">
       <canvas id="cert-canvas"></canvas>
     </div>
-    <button class="btn btn-amber" id="cert-download" style="margin-top:24px;">⬇️ Download as PNG</button>
-    <p class="muted" style="font-size:.85rem;margin-top:16px;">Drawn right here in your browser, nothing is uploaded or saved anywhere.</p>
+    <div class="cert-actions reveal" style="margin-top:24px;display:flex;flex-wrap:wrap;gap:12px;">
+      <button class="btn btn-amber" id="cert-download">⬇️ Download as PNG</button>
+      <button class="btn btn-ghost" id="cert-share-native" hidden>📤 Share</button>
+      <a class="btn btn-ghost" id="cert-share-whatsapp" href="#" target="_blank" rel="noopener">💬 Share on WhatsApp</a>
+      <button class="btn btn-ghost" id="cert-copy-link" type="button">🔗 Copy link</button>
+    </div>
+    <p class="muted" id="cert-share-status" role="status" style="font-size:.85rem;margin-top:12px;min-height:1.2em;"></p>
+    <p class="muted" style="font-size:.85rem;margin-top:4px;">Drawn right here in your browser, nothing is uploaded or saved anywhere.</p>
   </div>
 </section>
 
@@ -262,5 +281,6 @@
   });
 })();
 </script>
+
 </body>
 </html>

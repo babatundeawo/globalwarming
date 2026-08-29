@@ -8,6 +8,42 @@ like your other GitHub Pages projects). Includes a free-roam site, an
 a free, GitHub-native classroom check-in system with an auto-updating
 dashboard.
 
+## Discoverability, sharing & teacher tools (this update)
+
+- **Social share previews** — every page now has Open Graph and Twitter
+  Card meta tags plus a canonical URL, so links shared on WhatsApp,
+  Twitter/X, etc. show a proper title, description and branded image
+  (`images/og-image.png`) instead of bare text. Generated automatically
+  by `page()` in `build.py`, nothing to maintain per-page.
+- **`sitemap.xml` + `robots.txt`** — both auto-generated at the end of
+  `build.py` from the exact set of pages it just wrote, so they can never
+  drift out of sync with the real site.
+- **Analytics, off by default** — a free, cookie-free GoatCounter hook is
+  wired into `build.py` behind the `GOATCOUNTER_CODE` constant near the
+  top. Leave it blank (default) for zero tracking; paste in a site code
+  from a free https://www.goatcounter.com account to turn it on site-wide.
+- **Certificate sharing** — `certificate.html` now has native share
+  (mobile, shares the actual PNG where supported), a WhatsApp share
+  button, and a copy-link button, alongside the existing PNG download.
+- **Nigeria climate panel** — `data-explorer.html` gained a sourced
+  "Nigeria at a glance" panel (NiMet warming trend, sea-level and 2012
+  flood figures) alongside the existing live 2025 numbers, clearly
+  labelled as historical/projected rather than live.
+- **Class / school codes** — the check-in form has an optional class code
+  field, carried through the GitHub Issue, parsed by
+  `scripts/build_roster.py`, and usable as a filter dropdown on
+  `class-dashboard.html`, useful once more than one class or school uses
+  the same repo.
+- **Printable Teacher's Packet** — `scripts/build_teacher_packet.py`
+  renders `downloads/teacher-packet.pdf`, a single ready-to-print A4 PDF
+  with a pacing guide plus every lesson's objective, summary and
+  worksheet, generated straight from `LESSONS` in `build.py` so it never
+  drifts from the site. Linked from `for-teachers.html`. Re-run it after
+  editing any lesson content:
+  `python3 scripts/build_teacher_packet.py`
+  (needs `pip install playwright pypdf --break-system-packages` and
+  `playwright install chromium` once).
+
 ## Documentation pass fixes (this update)
 
 Two real bugs were found and fixed while auditing this repo against its own
@@ -90,7 +126,7 @@ gets cached for offline use.
 `js/checkin.js` is pointed at:
 
 ```js
-var GITHUB_REPO = "techbaseng/globalwarming";
+var GITHUB_REPO = "babatundeawo/globalwarming";
 ```
 
 Nothing to change, just make sure everything in this folder (including
@@ -167,7 +203,7 @@ Action.
 ## Deploying to GitHub Pages (free, no card required)
 
 1. Upload everything in this folder, **including the hidden `.github/`
-   folder**, to https://github.com/techbaseng/globalwarming, keeping the
+   folder**, to https://github.com/babatundeawo/globalwarming, keeping the
    folder structure intact (`css/`, `js/`, `scripts/`, `.github/`,
    `images/`, all the `.html` files, `build.py`).
 2. In the repo, go to **Settings → Pages**, set **Source** to your main

@@ -15,7 +15,7 @@
    get the update instead of a stale cached copy. */
 "use strict";
 
-const CACHE_VERSION = "gw-explorer-v2";
+const CACHE_VERSION = "gw-explorer-v3";
 const APP_SHELL = [
   "./",
   "index.html",

@@ -21,6 +21,7 @@
   if (!form) return;
 
   var nameInput = document.getElementById("checkin-name");
+  var classInput = document.getElementById("checkin-class");
   var noteInput = document.getElementById("checkin-note");
   var progressList = document.getElementById("checkin-progress-list");
   var progressCount = document.getElementById("checkin-progress-count");
@@ -60,6 +61,7 @@
       nameInput.focus();
       return;
     }
+    var classCode = (classInput && classInput.value.trim()) ? classInput.value.trim() : "";
     var nums = getCompletedNums();
     var lessonLines = nums.length
       ? nums.map(function(n){ return "- Lesson " + n + ": " + LESSON_TITLES[n]; }).join("\n")
@@ -69,6 +71,7 @@
     var title = "Check-in: " + name + ", " + nums.length + "/8 lessons";
     var body =
       "**Name:** " + name + "\n" +
+      (classCode ? "**Class:** " + classCode + "\n" : "") +
       "**Progress:** " + nums.length + " of 8 lessons\n\n" +
       "**Completed:**\n" + lessonLines + "\n\n" +
       "**Note to teacher:** " + note + "\n\n" +

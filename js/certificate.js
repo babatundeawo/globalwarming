@@ -137,4 +137,70 @@
       link.click();
     });
   }
+
+  /* ---- share the achievement ---- */
+  var shareStatus = document.getElementById("cert-share-status");
+  var shareNativeBtn = document.getElementById("cert-share-native");
+  var shareWhatsappBtn = document.getElementById("cert-share-whatsapp");
+  var copyLinkBtn = document.getElementById("cert-copy-link");
+  var CERT_URL = "https://babatundeawo.github.io/globalwarming/certificate.html";
+
+  function shareText(){
+    var name = (nameInput ? nameInput.value.trim() : "");
+    var who = name ? name + " just" : "I just";
+    return who + " completed the Global Warming Explorer course! 🌍 Free 8-lesson climate course, try it: " + CERT_URL;
+  }
+
+  function setStatus(msg){
+    if (shareStatus) shareStatus.textContent = msg;
+  }
+
+  function canvasToBlob(){
+    return new Promise(function(resolve){
+      canvas.toBlob(function(blob){ resolve(blob); }, "image/png");
+    });
+  }
+
+  // Native share (mobile browsers): shares the actual certificate image where supported.
+  if (shareNativeBtn){
+    if (navigator.share){
+      shareNativeBtn.hidden = false;
+      shareNativeBtn.addEventListener("click", function(){
+        canvasToBlob().then(function(blob){
+          var name = (nameInput ? nameInput.value.trim() : "") || "certificate";
+          var fileName = "global-warming-explorer-certificate-" + name.replace(/\s+/g, "-").toLowerCase() + ".png";
+          var file = blob ? new File([blob], fileName, {type: "image/png"}) : null;
+          var shareData = { title: "Global Warming Explorer — Certificate", text: shareText(), url: CERT_URL };
+          if (file && navigator.canShare && navigator.canShare({files: [file]})){
+            shareData.files = [file];
+          }
+          navigator.share(shareData).catch(function(){ /* user cancelled, ignore */ });
+        });
+      });
+    }
+  }
+
+  // WhatsApp: always available, no permissions needed, opens wa.me with prefilled text.
+  if (shareWhatsappBtn){
+    shareWhatsappBtn.addEventListener("click", function(e){
+      e.preventDefault();
+      var url = "https://wa.me/?text=" + encodeURIComponent(shareText());
+      window.open(url, "_blank", "noopener");
+    });
+  }
+
+  // Copy link: works everywhere, including desktop with no share sheet.
+  if (copyLinkBtn){
+    copyLinkBtn.addEventListener("click", function(){
+      var done = function(){ setStatus("Link copied ✓"); setTimeout(function(){ setStatus(""); }, 2500); };
+      var fail = function(){
+        window.prompt("Copy this link:", CERT_URL);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(CERT_URL).then(done, fail);
+      } else {
+        fail();
+      }
+    });
+  }
 })();

@@ -8,6 +8,20 @@ import os
 
 OUT_DIR = os.path.dirname(os.path.abspath(__file__))
 
+# Canonical site URL (used for OG/Twitter tags, canonical links and sitemap.xml).
+# Update this if the site is ever moved to a custom domain.
+SITE_URL = "https://babatundeawo.github.io/globalwarming/"
+
+# Free, cookie-free, no-signup-required-to-view analytics (GoatCounter).
+# To turn this on: create a free account at https://www.goatcounter.com,
+# note the site code it gives you (e.g. "yoursite" for yoursite.goatcounter.com),
+# and paste it below. Leave blank to keep analytics fully disabled (default).
+GOATCOUNTER_CODE = ""
+
+# Collected automatically as each page() call runs, then used to write
+# sitemap.xml once the whole site has been built. Do not edit by hand.
+_ALL_PAGES = []
+
 FONTS = """<link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">"""
@@ -392,6 +406,30 @@ def topic_pager(current_href):
 
 
 def page(filename, title, description, active, hero_html, body_html, extra_head="", extra_scripts=""):
+    canonical = SITE_URL + filename
+    og_image = SITE_URL + "images/og-image.png"
+    social_head = """<link rel="canonical" href="%s">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Global Warming Explorer">
+<meta property="og:title" content="%s · Global Warming Explorer">
+<meta property="og:description" content="%s">
+<meta property="og:url" content="%s">
+<meta property="og:image" content="%s">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="%s · Global Warming Explorer">
+<meta name="twitter:description" content="%s">
+<meta name="twitter:image" content="%s">""" % (
+        canonical, title, description, canonical, og_image,
+        title, description, og_image,
+    )
+    analytics_html = ""
+    if GOATCOUNTER_CODE:
+        analytics_html = (
+            '<script data-goatcounter="https://%s.goatcounter.com/count" '
+            'async src="//gc.zgo.at/count.js"></script>' % GOATCOUNTER_CODE
+        )
     html = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -400,6 +438,7 @@ def page(filename, title, description, active, hero_html, body_html, extra_head=
 <meta name="color-scheme" content="light dark">
 <title>%s · Global Warming Explorer</title>
 <meta name="description" content="%s">
+%s
 %s
 %s
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -422,10 +461,12 @@ def page(filename, title, description, active, hero_html, body_html, extra_head=
 <script src="js/main.js"></script>
 %s
 %s
+%s
 </body>
 </html>""" % (
         title,
         description,
+        social_head,
         THEME_INIT_SCRIPT,
         FONTS,
         PWA_HEAD_HTML,
@@ -440,9 +481,11 @@ def page(filename, title, description, active, hero_html, body_html, extra_head=
         INSTALL_TOAST_HTML,
         extra_scripts,
         PWA_SCRIPT_HTML,
+        analytics_html,
     )
     with open(os.path.join(OUT_DIR, filename), "w", encoding="utf-8") as f:
         f.write(html)
+    _ALL_PAGES.append(filename)
     print("wrote", filename)
 
 # =========================================================
@@ -1308,6 +1351,18 @@ data_body = """
       </div>
       <p class="source-note">Sources: Nigeria's 2025 Annual Flood Outlook (NIHSA/NEMA), NiMet heat advisories, WFP food security projections.</p>
     </div>
+
+    <div class="chart-card reveal">
+      <h3>🇳🇬 Nigeria at a glance: the longer trend</h3>
+      <p class="chart-meta">One extreme year matters less than the direction of travel. Here's what Nigeria's own weather agency has tracked over decades.</p>
+      <div class="fact-strip" style="margin-top:6px;">
+        <div class="fact"><div class="fv">+0.8°C</div><div class="fl">average annual warming, 1960s to 2006</div></div>
+        <div class="fact"><div class="fv">+1.1 to 2.5°C</div><div class="fl">projected further warming by 2060</div></div>
+        <div class="fact"><div class="fv">0.4 to 1.0m</div><div class="fl">projected sea-level rise by 2100</div></div>
+        <div class="fact"><div class="fv">7M</div><div class="fl">people hit by the 2012 floods, the last comparable event before 2025</div></div>
+      </div>
+      <p class="source-note">Sources: Nigerian Meteorological Agency (NiMet); UNEP/GRID Interactive Country Fiches, "Climate change · Nigeria"; 2012 flood impact figures from Nigeria's post-disaster needs assessment. These are historical and projected figures, not live data, unlike the panel above them.</p>
+    </div>
   </div>
 </section>
 """
@@ -1315,7 +1370,7 @@ data_body = """
 page(
     filename="data-explorer.html",
     title="Data Explorer",
-    description="Live weather plus real, sourced climate data: the CO2 curve, the warmest years on record, renewables growth, and Nigeria's 2025 flood numbers.",
+    description="Live weather plus real, sourced climate data: the CO2 curve, the warmest years on record, renewables growth, and Nigeria's 2025 flood numbers and decades-long warming trend.",
     active="data",
     hero_html=data_hero,
     body_html=data_body,
@@ -1893,6 +1948,13 @@ teachers_body = """
       <h2>Suggested pacing</h2>
       <p>Built for roughly one lesson per week over an 8-week unit, but every lesson also stands alone, compress it into a single intensive day, or stretch it across a full term. Each lesson runs 15 to 20 minutes of core content plus its worksheet; budget extra time for discussion and the hands-on activities in Lessons 1, 5 and 8.</p>
     </div>
+    <div class="callout callout--try reveal" style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;justify-content:space-between;">
+      <div>
+        <strong>📦 Whole packet, one download</strong>
+        <p style="margin:4px 0 0;">Every objective, summary and worksheet below, laid out for A4 printing, no internet needed in class.</p>
+      </div>
+      <a class="btn btn-primary" href="downloads/teacher-packet.pdf" download>⬇️ Download Teacher's Packet (PDF)</a>
+    </div>
     <table class="teacher-table reveal">
       <tr><th>Lesson &amp; time</th><th>Objective</th><th>Link</th></tr>
       %s
@@ -1963,8 +2025,14 @@ cert_body = """
     <div class="cert-canvas-wrap reveal">
       <canvas id="cert-canvas"></canvas>
     </div>
-    <button class="btn btn-amber" id="cert-download" style="margin-top:24px;">⬇️ Download as PNG</button>
-    <p class="muted" style="font-size:.85rem;margin-top:16px;">Drawn right here in your browser, nothing is uploaded or saved anywhere.</p>
+    <div class="cert-actions reveal" style="margin-top:24px;display:flex;flex-wrap:wrap;gap:12px;">
+      <button class="btn btn-amber" id="cert-download">⬇️ Download as PNG</button>
+      <button class="btn btn-ghost" id="cert-share-native" hidden>📤 Share</button>
+      <a class="btn btn-ghost" id="cert-share-whatsapp" href="#" target="_blank" rel="noopener">💬 Share on WhatsApp</a>
+      <button class="btn btn-ghost" id="cert-copy-link" type="button">🔗 Copy link</button>
+    </div>
+    <p class="muted" id="cert-share-status" role="status" style="font-size:.85rem;margin-top:12px;min-height:1.2em;"></p>
+    <p class="muted" style="font-size:.85rem;margin-top:4px;">Drawn right here in your browser, nothing is uploaded or saved anywhere.</p>
   </div>
 </section>
 """
@@ -2013,6 +2081,11 @@ checkin_body = """
       <div class="field">
         <label for="checkin-name">Your name (or first name + initial)</label>
         <input type="text" id="checkin-name" placeholder="e.g. Ada O." required>
+      </div>
+
+      <div class="field">
+        <label for="checkin-class">Class / school code <span class="muted" style="font-weight:400;">(optional, ask your teacher)</span></label>
+        <input type="text" id="checkin-class" placeholder="e.g. KBI-JSS2 or TECHBASE-SAT-AM">
       </div>
 
       <div class="checkin-progress-box">
@@ -2082,3 +2155,36 @@ page(
     extra_scripts='<script src="js/dashboard.js"></script>',
 )
 print("DASHBOARD PAGE BUILT")
+
+# =========================================================
+# SITEMAP.XML + ROBOTS.TXT
+# Generated last, from every filename page() actually wrote,
+# so the sitemap can never drift out of sync with the site.
+# =========================================================
+import datetime
+
+_today = datetime.date.today().isoformat()
+_HIGH_PRIORITY = {"index.html": "1.0", "course.html": "0.9"}
+
+sitemap_entries = []
+for _fn in _ALL_PAGES:
+    _priority = _HIGH_PRIORITY.get(_fn, "0.7")
+    sitemap_entries.append(
+        "  <url>\n    <loc>%s%s</loc>\n    <lastmod>%s</lastmod>\n    <priority>%s</priority>\n  </url>"
+        % (SITE_URL, _fn, _today, _priority)
+    )
+
+sitemap_xml = (
+    '<?xml version="1.0" encoding="UTF-8"?>\n'
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    + "\n".join(sitemap_entries)
+    + "\n</urlset>\n"
+)
+with open(os.path.join(OUT_DIR, "sitemap.xml"), "w", encoding="utf-8") as f:
+    f.write(sitemap_xml)
+print("wrote sitemap.xml (%d pages)" % len(_ALL_PAGES))
+
+robots_txt = "User-agent: *\nAllow: /\n\nSitemap: %ssitemap.xml\n" % SITE_URL
+with open(os.path.join(OUT_DIR, "robots.txt"), "w", encoding="utf-8") as f:
+    f.write(robots_txt)
+print("wrote robots.txt")
