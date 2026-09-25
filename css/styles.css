@@ -889,3 +889,207 @@ a:focus-visible, button:focus-visible, input:focus-visible, .quiz-opt:focus-visi
 .sim-stat{ background:var(--teal-100); border-radius:10px; padding:14px; text-align:center; }
 .sim-stat .ss-l{ font-size:.72rem; color:var(--ink-faint); font-weight:700; text-transform:uppercase; letter-spacing:.05em; }
 .sim-stat .ss-v{ font-family:"Space Grotesk",sans-serif; font-size:1.5rem; font-weight:700; color:var(--teal-700); margin-top:4px; }
+
+/* =========================================================================
+   PREMIUM UPGRADE LAYER
+   Senior-level polish pass: richer depth, motion, and material feel,
+   layered on top of the existing "atmospheric readout" system.
+   Everything here is additive/progressive — respects prefers-reduced-motion,
+   touch vs. pointer:fine, and dark mode automatically.
+   ========================================================================= */
+
+:root{
+  --ease-premium: cubic-bezier(.16,1,.3,1);
+  --ease-spring: cubic-bezier(.34,1.56,.64,1);
+  --glow-teal: 0 0 0 1px rgba(22,132,122,.14), 0 8px 20px -6px rgba(14,92,86,.35), 0 24px 48px -18px rgba(14,92,86,.28);
+  --glow-amber: 0 8px 24px -8px rgba(217,105,26,.45);
+  --grad-teal: linear-gradient(135deg, var(--teal-500), var(--teal-900));
+  --grad-warm: linear-gradient(135deg, var(--amber-500), var(--coral-600));
+  --grad-mesh: radial-gradient(1100px 520px at 92% -12%, rgba(22,132,122,.18), transparent 60%),
+               radial-gradient(760px 420px at -6% 8%, rgba(238,140,60,.14), transparent 55%);
+  --shadow-xl: 0 2px 6px rgba(17,32,28,.05), 0 40px 80px -24px rgba(17,32,28,.24);
+}
+[data-theme="dark"]{
+  --glow-teal: 0 0 0 1px rgba(79,199,184,.16), 0 8px 24px -6px rgba(0,0,0,.55), 0 24px 56px -18px rgba(0,0,0,.5);
+  --grad-mesh: radial-gradient(1100px 520px at 92% -12%, rgba(79,199,184,.14), transparent 60%),
+               radial-gradient(760px 420px at -6% 8%, rgba(242,162,92,.10), transparent 55%);
+  --shadow-xl: 0 2px 6px rgba(0,0,0,.4), 0 40px 90px -20px rgba(0,0,0,.65);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .cursor-glow, .reveal-auto, .tilt-el, .btn .ripple, .hero::before, .hero::after{ display:none !important; animation:none !important; }
+}
+
+/* ---- fine-pointer-only cursor glow: soft light that trails the pointer ---- */
+.cursor-glow{
+  position:fixed; top:0; left:0; width:420px; height:420px; z-index:2; pointer-events:none;
+  border-radius:50%; transform:translate(-50%,-50%); opacity:0;
+  background:radial-gradient(circle, rgba(22,132,122,.10), rgba(22,132,122,0) 68%);
+  transition:opacity .4s ease; will-change:transform;
+}
+[data-theme="dark"] .cursor-glow{ background:radial-gradient(circle, rgba(79,199,184,.10), rgba(79,199,184,0) 68%); }
+.cursor-glow.is-active{ opacity:1; }
+@media (pointer:coarse), (hover:none){ .cursor-glow{ display:none; } }
+
+/* ---- premium scrollbar ---- */
+html{ scrollbar-width:thin; scrollbar-color:var(--teal-500) transparent; }
+::-webkit-scrollbar{ width:11px; height:11px; }
+::-webkit-scrollbar-track{ background:transparent; }
+::-webkit-scrollbar-thumb{ background:var(--line); border-radius:999px; border:3px solid var(--paper); }
+::-webkit-scrollbar-thumb:hover{ background:var(--teal-500); }
+
+/* ---- richer focus ring ---- */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, .quiz-opt:focus-visible{
+  outline:none; box-shadow:0 0 0 3px var(--paper), 0 0 0 6px var(--amber-500), 0 0 18px -2px var(--amber-500);
+  border-radius:6px;
+}
+
+/* ---- scroll reveal, auto-applied by js/premium.js: fade + rise + slight scale, staggered ---- */
+.reveal-auto{
+  opacity:0; transform:translateY(22px) scale(.985);
+  transition:opacity .7s var(--ease-premium), transform .7s var(--ease-premium);
+  transition-delay:calc(var(--ri, 0) * 60ms);
+}
+.reveal-auto.is-in{ opacity:1; transform:none; }
+
+/* ---- magnetic tilt targets: JS sets rotateX/rotateY/translateZ inline; CSS provides the perspective + easing ---- */
+.tilt-el{ transition:transform .35s var(--ease-premium), box-shadow .35s var(--ease-premium); transform-style:preserve-3d; will-change:transform; }
+
+/* ---- BUTTONS: gradient sheen, lift, glow, and ripple ---- */
+.btn{ position:relative; overflow:hidden; isolation:isolate; transition:transform .25s var(--ease-spring), box-shadow .3s var(--ease-premium), background .25s ease, color .2s ease; }
+.btn::before{
+  content:""; position:absolute; inset:0; z-index:-1;
+  background:linear-gradient(115deg, transparent 30%, rgba(255,255,255,.28) 46%, rgba(255,255,255,.28) 54%, transparent 70%);
+  transform:translateX(-120%); transition:transform .65s var(--ease-premium);
+}
+.btn:hover::before{ transform:translateX(120%); }
+.btn-primary{ background:var(--grad-teal); box-shadow:0 2px 4px rgba(10,70,65,.2); }
+.btn-primary:hover{ background:var(--grad-teal); box-shadow:var(--glow-teal); transform:translateY(-2px); }
+.btn-primary:active{ transform:translateY(0) scale(.98); }
+.btn-amber{ background:var(--grad-warm); }
+.btn-amber:hover{ background:var(--grad-warm); box-shadow:var(--glow-amber); transform:translateY(-2px); }
+.btn-ghost:hover{ transform:translateY(-2px); background:var(--teal-100); }
+.btn .ripple{
+  position:absolute; border-radius:50%; background:rgba(255,255,255,.55); pointer-events:none;
+  transform:scale(0); animation:btn-ripple .6s ease-out forwards; z-index:2;
+}
+[data-theme="dark"] .btn .ripple{ background:rgba(255,255,255,.28); }
+.btn-ghost .ripple{ background:rgba(22,132,122,.25); }
+@keyframes btn-ripple{ to{ transform:scale(3.2); opacity:0; } }
+
+/* ---- NAV: livelier glass + gradient underline sweep ---- */
+.site-header{ box-shadow:0 1px 0 rgba(0,0,0,0); }
+.site-header::after{
+  content:""; position:absolute; left:0; right:0; bottom:-1px; height:1px;
+  background:linear-gradient(90deg, transparent, var(--teal-500), var(--amber-500), transparent);
+  opacity:0; transition:opacity .3s ease;
+}
+.site-header.is-scrolled::after{ opacity:.6; }
+.site-header.is-scrolled{ backdrop-filter:saturate(160%) blur(18px); -webkit-backdrop-filter:saturate(160%) blur(18px); }
+
+/* ---- HERO: animated gradient mesh + floating orbs + fine grain ---- */
+.hero{ background:var(--grad-mesh), var(--paper); }
+.hero::before, .hero::after{
+  content:""; position:absolute; z-index:0; border-radius:50%; pointer-events:none; filter:blur(2px);
+  background:radial-gradient(circle, rgba(22,132,122,.16), transparent 70%);
+  animation:hero-float 14s ease-in-out infinite;
+}
+.hero::before{ width:280px; height:280px; top:-60px; right:8%; }
+.hero::after{
+  width:200px; height:200px; bottom:-40px; left:4%;
+  background:radial-gradient(circle, rgba(238,140,60,.14), transparent 70%);
+  animation-duration:18s; animation-delay:-4s;
+}
+@keyframes hero-float{
+  0%,100%{ transform:translate(0,0) scale(1); }
+  50%{ transform:translate(-16px, 22px) scale(1.06); }
+}
+.hero-inner{ animation:hero-rise .8s var(--ease-premium) both; }
+@keyframes hero-rise{ from{ opacity:0; transform:translateY(16px); } to{ opacity:1; transform:none; } }
+
+/* ---- CARDS: gradient edge-glow + lift + icon motion ---- */
+.card{ position:relative; transition:transform .35s var(--ease-premium), box-shadow .35s var(--ease-premium), border-color .35s ease; }
+.card::before{
+  content:""; position:absolute; inset:0; border-radius:inherit; padding:1px; z-index:-1;
+  background:linear-gradient(135deg, var(--teal-500), transparent 40%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor; mask-composite:exclude;
+  opacity:0; transition:opacity .35s ease;
+}
+.card:hover{ transform:translateY(-6px); box-shadow:var(--shadow-xl); }
+.card:hover::before{ opacity:1; }
+.card:hover .ico{ transform:scale(1.1) rotate(-6deg); background:var(--grad-teal); color:#fff; }
+.card .ico{ transition:transform .3s var(--ease-spring), background .3s ease, color .3s ease; }
+a.card{ will-change:transform; }
+
+.lesson-card{ transition:transform .3s var(--ease-premium), box-shadow .3s var(--ease-premium), border-color .3s ease; }
+.lesson-card:hover{ box-shadow:var(--shadow-lg); }
+.lesson-card:hover .ln{ transform:scale(1.08); box-shadow:var(--glow-teal); }
+.lesson-card .ln{ transition:transform .3s var(--ease-spring), box-shadow .3s ease; }
+
+/* ---- stat / readout style elements: numeral gradient + lift ---- */
+.fact, .sim-stat, .weather-stat, .gloss-item, .chart-card, .side-card, .worksheet, .checkin-progress-box{
+  transition:transform .3s var(--ease-premium), box-shadow .3s var(--ease-premium), border-color .3s ease;
+}
+.fact:hover, .sim-stat:hover, .gloss-item:hover, .chart-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow-lg); border-color:var(--teal-200); }
+.fact .fv{
+  background:var(--grad-teal); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.sim-stat .ss-v{ background:var(--grad-teal); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.readout-cell .ro-value{ text-shadow:0 0 24px currentColor; }
+
+/* ---- quiz feedback: livelier correct/incorrect states ---- */
+.quiz-opt{ transition:transform .2s var(--ease-spring), border-color .2s ease, background .2s ease, box-shadow .2s ease; }
+.quiz-opt:hover{ transform:translateY(-2px); box-shadow:var(--shadow); }
+.quiz-opt.correct{ animation:quiz-correct .5s var(--ease-spring); box-shadow:0 0 0 3px rgba(22,132,122,.18); }
+.quiz-opt.wrong{ animation:quiz-wrong .45s ease; }
+@keyframes quiz-correct{ 0%{ transform:scale(1); } 40%{ transform:scale(1.03); } 100%{ transform:scale(1); } }
+@keyframes quiz-wrong{ 0%,100%{ transform:translateX(0); } 25%{ transform:translateX(-6px); } 75%{ transform:translateX(6px); } }
+.quiz-card{ transition:box-shadow .3s ease; }
+.quiz-progress > span{ background:linear-gradient(90deg, var(--teal-500), var(--amber-500)); box-shadow:0 0 12px -2px var(--teal-500); }
+
+/* ---- result / impact boxes: subtle glow + gradient numerals ---- */
+.result-box{ position:relative; overflow:hidden; box-shadow:var(--shadow-xl); }
+.result-box::before{
+  content:""; position:absolute; inset:0; background:var(--grad-mesh); opacity:.5; pointer-events:none;
+}
+.result-box .rb-value{ position:relative; }
+.impact-meter .im-count{ background:var(--grad-teal); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+
+/* ---- certificate: ornamental premium border + confetti canvas ---- */
+.cert-canvas-wrap{ position:relative; }
+#confetti-canvas{ position:fixed; inset:0; z-index:95; pointer-events:none; }
+
+/* ---- palette / mobile menu: springier motion ---- */
+.palette-backdrop, .mobile-menu-backdrop{ transition:opacity .25s var(--ease-premium), visibility .25s; }
+.palette{ transition:transform .3s var(--ease-spring); }
+.mobile-menu{ transition:transform .38s var(--ease-premium), visibility .38s; }
+
+/* ---- loading shimmer (used where content streams in) ---- */
+.skeleton{
+  position:relative; overflow:hidden; background:var(--line-soft); border-radius:var(--radius-sm);
+}
+.skeleton::after{
+  content:""; position:absolute; inset:0; transform:translateX(-100%);
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent);
+  animation:skeleton-sweep 1.6s ease-in-out infinite;
+}
+[data-theme="dark"] .skeleton::after{ background:linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent); }
+@keyframes skeleton-sweep{ to{ transform:translateX(100%); } }
+
+/* ---- page-load fade (JS toggles is-ready on <html> once fonts/layout settle) ---- */
+html:not(.is-ready) body{ opacity:0; }
+html.is-ready body{ opacity:1; transition:opacity .35s ease; }
+
+/* ---- back to top + icon buttons: spring pop ---- */
+.back-to-top, .icon-btn{ transition:transform .25s var(--ease-spring), box-shadow .25s ease, background .15s ease, color .15s ease, border-color .15s ease; }
+.back-to-top:hover{ transform:translateY(-3px) scale(1.05); box-shadow:var(--glow-teal); }
+.icon-btn:hover{ transform:translateY(-1px); }
+
+/* ---- brand mark: subtle glow ---- */
+.brand .mark{ box-shadow:0 2px 10px -2px rgba(10,70,65,.5), 0 0 0 1px rgba(255,255,255,.12) inset; }
+
+@media (max-width:640px){
+  .cursor-glow{ display:none; }
+  .card:hover, .lesson-card:hover, .fact:hover{ transform:none; }
+}

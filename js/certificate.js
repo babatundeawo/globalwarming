@@ -19,16 +19,33 @@
   function draw(name){
     name = (name || "").trim() || "Your Name Here";
 
-    ctx.fillStyle = "#FFFFFF";
+    // soft paper gradient wash instead of flat white
+    var bg = ctx.createLinearGradient(0, 0, W, H);
+    bg.addColorStop(0, "#FFFFFF");
+    bg.addColorStop(1, "#F5F7F2");
+    ctx.fillStyle = bg;
     ctx.fillRect(0, 0, W, H);
 
-    // outer border
-    ctx.strokeStyle = "#0E5C56";
+    // faint radial glow behind the seal, premium-paper feel
+    var glow = ctx.createRadialGradient(W / 2, 90, 10, W / 2, 90, 260);
+    glow.addColorStop(0, "rgba(22,132,122,0.10)");
+    glow.addColorStop(1, "rgba(22,132,122,0)");
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, W, H);
+
+    // outer border, gradient teal->amber for a richer frame
+    var borderGrad = ctx.createLinearGradient(0, 0, W, H);
+    borderGrad.addColorStop(0, "#0E5C56");
+    borderGrad.addColorStop(1, "#0A4641");
+    ctx.strokeStyle = borderGrad;
     ctx.lineWidth = 10;
     ctx.strokeRect(20, 20, W - 40, H - 40);
     ctx.strokeStyle = "#EE8C3C";
     ctx.lineWidth = 3;
     ctx.strokeRect(38, 38, W - 76, H - 76);
+    ctx.strokeStyle = "rgba(217,105,26,0.35)";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(46, 46, W - 92, H - 92);
 
     // corner isoline-style flourish (simple arcs, echoes site motif)
     ctx.strokeStyle = "rgba(14,92,86,0.25)";
@@ -41,12 +58,35 @@
       ctx.arc(W - 70, H - 70, 26 + i * 10, 0, 0.5 * Math.PI);
       ctx.stroke();
     }
+    ctx.beginPath(); ctx.arc(W - 70, 70, 26, 1.5 * Math.PI, 2 * Math.PI); ctx.stroke();
+    ctx.beginPath(); ctx.arc(70, H - 70, 26, 0.5 * Math.PI, Math.PI); ctx.stroke();
+
+    // gold medallion seal, top-center — a premium touch, sits above the eyebrow
+    var seal = ctx.createLinearGradient(W / 2 - 22, 40, W / 2 + 22, 84);
+    seal.addColorStop(0, "#F5B87D");
+    seal.addColorStop(0.5, "#D9691A");
+    seal.addColorStop(1, "#EE8C3C");
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(W / 2, 62, 22, 0, Math.PI * 2);
+    ctx.fillStyle = seal;
+    ctx.fill();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#FFFFFF";
+    ctx.stroke();
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = "700 18px 'Space Grotesk', sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("GW", W / 2, 63);
+    ctx.textBaseline = "alphabetic";
+    ctx.restore();
 
     ctx.textAlign = "center";
 
     ctx.fillStyle = "#D9691A";
     ctx.font = "700 16px 'JetBrains Mono', monospace";
-    ctx.fillText("GLOBAL WARMING EXPLORER · GUIDED COURSE", W / 2, 110);
+    ctx.fillText("GLOBAL WARMING EXPLORER · GUIDED COURSE", W / 2, 118);
 
     ctx.fillStyle = "#11201C";
     ctx.font = "700 46px 'Space Grotesk', sans-serif";
@@ -135,6 +175,7 @@
       link.download = "global-warming-explorer-certificate-" + name.replace(/\s+/g, "-").toLowerCase() + ".png";
       link.href = canvas.toDataURL("image/png");
       link.click();
+      if (window.GWConfetti) window.GWConfetti({ count: 150, duration: 3000 });
     });
   }
 

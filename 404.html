@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Page not found · Global Warming Explorer</title>
+<meta name="robots" content="noindex">
+<script>
+(function(){
+  try{
+    var saved = localStorage.getItem("gw-theme");
+    var theme = saved || (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    if (theme === "dark") document.documentElement.setAttribute("data-theme", "dark");
+  }catch(e){}
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  body{ padding-top:0; }
+  .nf-wrap{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; position:relative; overflow:hidden; }
+  .nf-wrap::before, .nf-wrap::after{
+    content:""; position:absolute; z-index:0; border-radius:50%; filter:blur(2px); pointer-events:none;
+    background:radial-gradient(circle, rgba(22,132,122,.16), transparent 70%); animation:hero-float 14s ease-in-out infinite;
+  }
+  .nf-wrap::before{ width:320px; height:320px; top:-80px; right:6%; }
+  .nf-wrap::after{ width:220px; height:220px; bottom:-40px; left:4%; background:radial-gradient(circle, rgba(238,140,60,.14), transparent 70%); animation-duration:18s; animation-delay:-4s; }
+  .nf-card{
+    position:relative; z-index:1; max-width:480px; text-align:center;
+    background:var(--paper-raised); border:1px solid var(--line-soft); border-radius:var(--radius);
+    padding:48px 36px; box-shadow:var(--shadow-xl);
+  }
+  .nf-code{
+    font-family:"Space Grotesk",sans-serif; font-weight:700; font-size:4.5rem; line-height:1;
+    background:var(--grad-teal); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+    margin-bottom:.2em;
+  }
+  .nf-card h1{ font-size:1.35rem; margin-bottom:.5em; }
+  .nf-card p{ margin-bottom:1.6em; }
+  .nf-actions{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+</style>
+</head>
+<body>
+<div class="nf-wrap">
+  <div class="nf-card">
+    <div class="nf-code">404</div>
+    <p class="eyebrow" style="justify-content:center;">Off the map</p>
+    <h1>This page drifted away, like sea ice.</h1>
+    <p>The page you're looking for doesn't exist, or it's moved. Try the homepage, or jump straight into the course.</p>
+    <div class="nf-actions">
+      <a class="btn btn-primary" href="index.html">Go to Home</a>
+      <a class="btn btn-ghost" href="course.html">Start the course</a>
+    </div>
+  </div>
+</div>
+<script src="js/premium.js" defer></script>
+</body>
+</html>

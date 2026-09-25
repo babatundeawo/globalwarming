@@ -62,6 +62,9 @@
     }
     resultNote.textContent = note;
     resultBox.style.display = "block";
+    resultValue.style.animation = "none";
+    void resultValue.offsetWidth; /* restart the pop */
+    resultValue.style.animation = "quiz-correct .4s var(--ease-spring)";
   }
 
   form.addEventListener("input", render);

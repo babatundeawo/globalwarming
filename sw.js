@@ -15,7 +15,7 @@
    get the update instead of a stale cached copy. */
 "use strict";
 
-const CACHE_VERSION = "gw-explorer-v3";
+const CACHE_VERSION = "gw-explorer-v4";
 const APP_SHELL = [
   "./",
   "index.html",
@@ -48,6 +48,7 @@ const APP_SHELL = [
   "offline.html",
   "css/styles.css",
   "js/main.js",
+  "js/premium.js",
   "js/calculator.js",
   "js/certificate.js",
   "js/charts.js",

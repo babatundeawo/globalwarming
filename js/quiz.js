@@ -109,6 +109,7 @@
     var ex = document.getElementById("quiz-explain");
     ex.textContent = (correct ? "Correct! " : "Not quite. ") + item.explain;
     ex.classList.add("show");
+    if (correct && window.GWConfetti) window.GWConfetti({ count: 36, duration: 1200 });
     document.getElementById("quiz-next").style.display = "inline-flex";
   }
 
@@ -121,13 +122,14 @@
     else msg = "Nice try! Head back through the Learn section, then come give this another go.";
 
     mount.innerHTML =
-      '<div class="center">' +
+      '<div class="center reveal-auto is-in">' +
       '<p class="eyebrow" style="justify-content:center;">RESULT</p>' +
-      '<div class="rb-value mono" style="font-size:2.8rem;font-weight:700;color:var(--teal-700);">' + score + ' / ' + QUESTIONS.length + '</div>' +
+      '<div class="rb-value mono" style="font-size:2.8rem;font-weight:700;background:var(--grad-teal);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">' + score + ' / ' + QUESTIONS.length + '</div>' +
       '<p style="font-size:1.05rem;max-width:34em;margin:10px auto 24px;">' + msg + '</p>' +
       '<button class="btn btn-primary" id="quiz-restart">Play again</button>' +
       '</div>';
     document.getElementById("quiz-restart").addEventListener("click", function(){ idx = 0; score = 0; render(); });
+    if (pct >= 70 && window.GWConfetti) window.GWConfetti({ count: pct >= 90 ? 130 : 80 });
   }
 
   render();
