@@ -526,7 +526,7 @@ home_hero = hero_block(
     lede="A free, explorative guide to global warming: the physics of why it happens, what it's already doing to rivers, farms and cities across Nigeria and the world, and what you can actually do about it. Built for curious minds of every age.",
     ctas_html='<a href="what-is-global-warming.html" class="btn btn-primary">Start exploring →</a>'
               '<a href="data-explorer.html" class="btn btn-ghost">See the live data</a>',
-    media_html='<img src="https://commons.wikimedia.org/wiki/Special:FilePath/The_Blue_Marble.jpg?width=900" alt="The Blue Marble, Earth photographed from Apollo 17, showing Africa, Antarctica and the Arabian Peninsula">' + img_credit("Earth, 1972 · NASA / Apollo 17 (public domain)"),
+    media_html='<img src="https://commons.wikimedia.org/wiki/Special:FilePath/The_Blue_Marble.jpg?width=960" alt="The Blue Marble, Earth photographed from Apollo 17, showing Africa, Antarctica and the Arabian Peninsula">' + img_credit("Earth, 1972 · NASA / Apollo 17 (public domain)"),
     readout_cells=[
         {"label": "CO2 today (avg, 2025)", "value": "427.4", "decimals": 1, "suffix": " ppm", "tone": "warm"},
         {"label": "vs. pre-industrial (~280ppm)", "value": "53", "decimals": 0, "suffix": "% higher", "tone": "warm"},
@@ -757,7 +757,7 @@ causes_hero = hero_block(
     h1="What's actually causing global warming?",
     lede="Almost all of the extra greenhouse gas behind today's warming comes from human activity since the 1800s, mainly the everyday business of making electricity, growing food, manufacturing things, and getting around.",
     ctas_html='<a href="effects.html" class="btn btn-primary">Next: the effects →</a>',
-    media_html='<img src="https://commons.wikimedia.org/wiki/Special:FilePath/Factory_Emitting_Smoke.jpg?width=900" alt="Industrial smokestacks emitting smoke into the sky">' + img_credit("Industrial emissions · via Wikimedia Commons"),
+    media_html='<img src="https://commons.wikimedia.org/wiki/Special:FilePath/Factory_Emitting_Smoke.jpg?width=960" alt="Industrial smokestacks emitting smoke into the sky">' + img_credit("Industrial emissions · via Wikimedia Commons"),
     readout_cells=[
         {"label": "Share of emissions: energy & transport", "value": "73", "decimals": 0, "suffix": "%+", "tone": "warm"},
         {"label": "Share from agriculture & land use", "value": "18", "decimals": 0, "suffix": "%", "tone": ""},
@@ -828,7 +828,7 @@ effects_hero = hero_block(
     h1="Effects: worldwide, and a lot closer to home",
     lede="A warmer atmosphere doesn't just mean warmer days. It loads the dice toward heavier floods, longer droughts, melting ice and rising seas, and in 2025, Nigeria felt several of these firsthand.",
     ctas_html='<a href="why-care.html" class="btn btn-primary">Next: why care →</a>',
-    media_html='<img src="https://commons.wikimedia.org/wiki/Special:FilePath/Auyo_village_flood_06.jpg?width=900" alt="Floodwaters surrounding a village in Auyo, Jigawa State, Nigeria">' + img_credit("Auyo village flood · Sani Maikatanga, Wikimedia Commons (CC BY-SA 4.0)"),
+    media_html='<img src="https://commons.wikimedia.org/wiki/Special:FilePath/Auyo_village_flood_06.jpg?width=960" alt="Floodwaters surrounding a village in Auyo, Jigawa State, Nigeria">' + img_credit("Auyo village flood · Sani Maikatanga, Wikimedia Commons (CC BY-SA 4.0)"),
     readout_cells=[
         {"label": "2025: warmest years on record", "value": "3", "decimals": 0, "suffix": "rd", "tone": "alert"},
         {"label": "Arctic sea ice, 2025", "value": "2", "decimals": 0, "suffix": "nd-lowest ever", "tone": "cool"},
@@ -1150,7 +1150,7 @@ energy_hero = hero_block(
     h1="Clean energy: the quiet revolution already under way",
     lede="Solar panels and wind turbines aren't a future idea anymore, they're the fastest-growing source of new electricity on Earth, and Nigeria has some of the best untapped sunlight on the planet to work with.",
     ctas_html='<a href="action-hub.html" class="btn btn-primary">Next: the Action Hub →</a>',
-    media_html='<img src="https://commons.wikimedia.org/wiki/Special:FilePath/Solar_panel_installer.jpg?width=900" alt="A solar panel installer at work in Nigeria">' + img_credit("Solar installation, Nigeria · Wiki Loves Africa, Wikimedia Commons (CC BY-SA 4.0)"),
+    media_html='<img src="https://commons.wikimedia.org/wiki/Special:FilePath/Solar_panel_installer.jpg?width=960" alt="A solar panel installer at work in Nigeria">' + img_credit("Solar installation, Nigeria · Wiki Loves Africa, Wikimedia Commons (CC BY-SA 4.0)"),
     readout_cells=[
         {"label": "Renewables, world electricity, 2025", "value": "34", "decimals": 0, "suffix": "%", "tone": "cool"},
         {"label": "...a decade earlier", "value": "23", "decimals": 0, "suffix": "%", "tone": ""},
@@ -1168,7 +1168,7 @@ energy_body = """
     </div>
 
     <div class="reveal" style="margin:36px 0;">
-      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Wind_turbines_(Adair_Wind_Farm,_Iowa,_USA)_3_(48916255452).jpg?width=1200" alt="Rows of wind turbines at a wind farm" style="border-radius:var(--radius);border:1px solid var(--line-soft);">
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Wind_turbines_(Adair_Wind_Farm,_Iowa,_USA)_3_(48916255452).jpg?width=1280" alt="Rows of wind turbines at a wind farm" style="border-radius:var(--radius);border:1px solid var(--line-soft);">
       <p class="muted" style="font-size:.8rem;margin-top:8px;">Wind turbines at a wind farm · via Wikimedia Commons</p>
     </div>
 
