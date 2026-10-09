@@ -28,7 +28,7 @@ jobs:
       issues: read          # lets the build read "Check-in:" issues for the class dashboard
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Python
         uses: actions/setup-python@v5
