@@ -28,7 +28,7 @@ Fonts come from Google Fonts. To change them, edit the `FONTS` line in `build.py
 - Replace `images/profile/babatunde.jpg` with a new photo of the same name.
 - Replace `images/og-image.png` (1200 x 630) to change the picture shown when the site is shared.
 - App icons are in `images/icons/`. Keep the file names and sizes.
-- Photos on the home and topic pages are linked from Wikimedia Commons inside `build.py`; their credits sit next to them. Keep the credit if you swap in another photo.
+- Photos on the home and topic pages come from Wikimedia Commons. They are named inside `build.py` and downloaded automatically during each deployment into `images/photos/`. Their credits sit next to them; keep the credit if you swap in another photo.
 
 ## Address and analytics
 

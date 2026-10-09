@@ -5,6 +5,8 @@ Generates all HTML pages from shared nav/footer/head templates so every
 page stays consistent. Run with: python3 build.py
 """
 import os
+import re
+import urllib.parse
 
 OUT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -406,6 +408,27 @@ def topic_pager(current_href):
     return '<div class="topic-pager">%s%s</div>' % (prev_html, next_html)
 
 
+
+# ---- local copies of Wikimedia photos (downloaded by scripts/fetch_images.py) ----
+_PHOTO_RE = re.compile(r"https://commons\.wikimedia\.org/wiki/Special:FilePath/([^\"'?\s]+)\?width=(\d+)")
+
+
+def local_photo_name(commons_name, width):
+    base = urllib.parse.unquote(commons_name)
+    stem, ext = os.path.splitext(base)
+    stem = re.sub(r"[^A-Za-z0-9]+", "_", stem).strip("_")
+    return "%s-%s%s" % (stem, width, ext.lower() or ".jpg")
+
+
+def use_local_photos(html):
+    """Point photos at images/photos/ when the file was downloaded; otherwise keep the Wikimedia link."""
+    def swap(m):
+        name = local_photo_name(m.group(1), m.group(2))
+        if os.path.exists(os.path.join(OUT_DIR, "images", "photos", name)):
+            return "images/photos/" + name
+        return m.group(0)
+    return _PHOTO_RE.sub(swap, html)
+
 def page(filename, title, description, active, hero_html, body_html, extra_head="", extra_scripts=""):
     canonical = SITE_URL + filename
     og_image = SITE_URL + "images/og-image.png"
@@ -489,7 +512,7 @@ def page(filename, title, description, active, hero_html, body_html, extra_head=
         analytics_html,
     )
     with open(os.path.join(OUT_DIR, filename), "w", encoding="utf-8") as f:
-        f.write(html)
+        f.write(use_local_photos(html))
     _ALL_PAGES.append(filename)
     print("wrote", filename)
 

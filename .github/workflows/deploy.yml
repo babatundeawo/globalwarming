@@ -42,6 +42,10 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: python3 scripts/build_roster.py
 
+      - name: Download the photos
+        continue-on-error: true   # if it fails, pages link to Wikimedia directly
+        run: python3 scripts/fetch_images.py
+
       - name: Generate the pages
         run: python3 build.py
 
