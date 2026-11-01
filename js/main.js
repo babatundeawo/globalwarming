@@ -8,23 +8,19 @@
   var backdrop = document.getElementById("mobile-menu-backdrop");
   var closeBtn = document.getElementById("mobile-menu-close");
   var scrollLockY = 0;
-  var scrollLockCount = 0;
+  var lockReasons = {};   /* e.g. { menu:true, palette:true }: idempotent, can't get out of sync */
 
-  function lockBodyScroll(){
-    if (scrollLockCount === 0){
+  function applyLock(){
+    var shouldLock = Object.keys(lockReasons).length > 0;
+    var isLocked = document.body.style.position === "fixed";
+    if (shouldLock && !isLocked){
       scrollLockY = window.scrollY || document.documentElement.scrollTop || 0;
       document.body.style.position = "fixed";
       document.body.style.top = (-scrollLockY) + "px";
       document.body.style.left = "0";
       document.body.style.right = "0";
       document.body.style.width = "100%";
-    }
-    scrollLockCount++;
-  }
-  function unlockBodyScroll(){
-    if (scrollLockCount <= 0) return;
-    scrollLockCount--;
-    if (scrollLockCount === 0){
+    } else if (!shouldLock && isLocked){
       document.body.style.position = "";
       document.body.style.top = "";
       document.body.style.left = "";
@@ -33,6 +29,30 @@
       window.scrollTo(0, scrollLockY);
     }
   }
+  function lockBodyScroll(reason){ lockReasons[reason || "x"] = true; applyLock(); }
+  function unlockBodyScroll(reason){ delete lockReasons[reason || "x"]; applyLock(); }
+  function forceUnlock(){
+    lockReasons = {};
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.width = "";
+  }
+  /* Back/forward cache restores a page exactly as it was left (e.g. with the
+     palette open and the body frozen). Always start a shown page unlocked. */
+  window.addEventListener("pageshow", function(){
+    if (!document.querySelector(".palette-backdrop.is-open, .mobile-menu.is-open")) forceUnlock();
+  });
+  window.addEventListener("pagehide", function(){ forceUnlock(); });
+  /* Menu drawer is mobile-only: unlock if the window grows past that. */
+  window.addEventListener("resize", function(){
+    if (window.innerWidth > 1099 && lockReasons.menu){
+      if (mobileMenu) mobileMenu.classList.remove("is-open");
+      if (backdrop) backdrop.classList.remove("is-open");
+      unlockBodyScroll("menu");
+    }
+  });
 
   function setMenu(open){
     if (!mobileMenu) return;
@@ -42,7 +62,7 @@
       menuBtn.classList.toggle("is-open", open);
       menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
     }
-    if (open) lockBodyScroll(); else unlockBodyScroll();
+    if (open) lockBodyScroll("menu"); else unlockBodyScroll("menu");
   }
 
   if (menuBtn && mobileMenu){
@@ -232,13 +252,13 @@
     if (!paletteBackdrop) return;
     renderPalette("");
     paletteBackdrop.classList.add("is-open");
-    lockBodyScroll();
+    lockBodyScroll("palette");
     if (paletteInput){ paletteInput.value = ""; paletteInput.focus(); }
   }
   function closePalette(){
     if (!paletteBackdrop) return;
     paletteBackdrop.classList.remove("is-open");
-    unlockBodyScroll();
+    unlockBodyScroll("palette");
   }
 
   if (paletteBackdrop){
