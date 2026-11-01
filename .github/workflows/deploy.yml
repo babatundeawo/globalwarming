@@ -86,7 +86,7 @@ jobs:
 
       - name: Save the built site so a pull request can be inspected
         if: github.event_name == 'pull_request'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: built-site
           path: _site
