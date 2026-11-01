@@ -1,38 +1,17 @@
 # Customizing the site
 
-All changes are made on github.com by opening a file, selecting the pencil icon, and committing. The site rebuilds automatically (see [DEPLOYMENT.md](DEPLOYMENT.md)).
+All page text lives in `build.py`, between quote marks. Change only the words, not the quote marks.
 
-## Text
-
-Page content lives in `build.py`. Each page is a block with a title, description and body. Use search to find the words you want to change. Lesson content is in the `LESSONS` list; the glossary is in `GLOSSARY_TERMS`.
-
-## Colors
-
-Open `css/styles.css` and change the values at the top (the `:root` block for light mode and `[data-theme="dark"]` for dark mode). The main colors are:
-
-| Name | Used for |
+| To change | Where |
 | --- | --- |
-| `--teal-700` | Primary buttons, links, headings accents |
-| `--amber-500` / `--amber-600` | The "heat" accent |
-| `--paper` | Page background |
-| `--ink` | Body text |
+| Colors, spacing, radius, type scale | `css/brand.css` (top of the file) and the `:root` block in `css/styles.css` |
+| Text on a page | `build.py` (use Find, `Ctrl + F`, to locate the sentence) |
+| Site address | Nothing to do on GitHub Pages: the build reads it. For testing only, set `SITE_URL` |
+| Fonts | `scripts/fetch_assets.py` lists them; they are downloaded at build time (Fraunces, Inter, JetBrains Mono, all SIL OFL) |
+| The colored ribbon on the home hero | `stripes_html()` in `build.py` and `.stripes` in `css/brand.css` |
+| Favicon and app icons | `favicon.svg` and `images/icons/` (192, 512, maskable 512, apple-touch 180, favicon 32) |
+| Social preview image | `images/og-image.png` (1200 x 630) |
+| Photos | Credited beside each photo in `build.py`; use only images you own or that are freely licensed |
+| App name and shortcuts | `write_manifest()` in `build.py` |
 
-Spacing, type sizes and motion timings are in `css/brand.css`. After changing the main color, also update `theme_color` in `manifest.json` and the two `theme-color` lines in `build.py`.
-
-## Fonts
-
-Fonts come from Google Fonts. To change them, edit the `FONTS` line in `build.py` and the `font-family` names in `css/styles.css`. Only choose fonts with licenses that allow free commercial use.
-
-## Images
-
-- Replace `images/profile/babatunde.jpg` with a new photo of the same name.
-- Replace `images/og-image.png` (1200 x 630) to change the picture shown when the site is shared.
-- App icons are in `images/icons/`. Keep the file names and sizes.
-- Photos on the home and topic pages come from Wikimedia Commons. They are named inside `build.py` and downloaded automatically during each deployment into `images/photos/`. Their credits sit next to them; keep the credit if you swap in another photo.
-
-## Address and analytics
-
-Near the top of `build.py`:
-
-- `SITE_URL` is the public address of the site.
-- `GOATCOUNTER_CODE` is empty, which keeps analytics off. To measure visits without cookies, create a free account at goatcounter.com and paste your site code between the quotes.
+To replace the app icons, keep the same file names and sizes. The maskable icon needs its artwork inside the centre 80 percent.

@@ -121,3 +121,67 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 /* ---- header layout: the logo takes only the space it needs, links get the rest ---- */
 .brand{ flex:0 1 auto; }
 .nav-desktop{ flex:1 1 auto; justify-content:flex-end; }
+
+/* =========================================================
+   v2 layer: signature "warming stripes" ribbon, toasts, share,
+   offline badge, tighter focus and touch targets.
+   ========================================================= */
+@supports (color: oklch(0.5 0.1 200)){
+  :root{
+    --accent-ember: oklch(0.68 0.17 50);
+    --accent-spruce: oklch(0.42 0.07 205);
+  }
+}
+
+/* The signature: a decorative ribbon of vertical stripes, cool to hot,
+   that rises into place once on load. It carries no data and is hidden from assistive tech. */
+.stripes{
+  display:flex; height:clamp(34px, 6vw, 64px); margin-top:var(--space-6);
+  border-radius:var(--radius-sm); overflow:hidden; opacity:.95;
+}
+.stripes span{
+  flex:1; transform-origin:bottom; transform:scaleY(1);
+  animation:stripe-rise .9s cubic-bezier(.2,.8,.2,1) both;
+  animation-delay:calc(var(--i) * 14ms);
+}
+@keyframes stripe-rise{ from{ transform:scaleY(0); opacity:0; } to{ transform:scaleY(1); opacity:1; } }
+
+/* Toasts: update, iOS install guide */
+.update-toast, .ios-toast{
+  position:fixed; left:50%; z-index:var(--z-modal);
+  width:min(94vw, 460px); display:flex; gap:var(--space-3); align-items:center;
+  padding:var(--space-3) var(--space-4); border-radius:var(--radius);
+  background:var(--paper-raised); color:var(--ink); border:1px solid var(--line-soft);
+  box-shadow:0 12px 40px rgba(0,0,0,.22);
+  bottom:calc(16px + env(safe-area-inset-bottom, 0px));
+  transform:translate(-50%, 140%); opacity:0; pointer-events:none;
+  transition:transform var(--dur-base) ease, opacity var(--dur-base) ease;
+}
+.update-toast.is-open, .ios-toast.is-open{ transform:translate(-50%, 0); opacity:1; pointer-events:auto; }
+.update-toast .ut-body, .ios-toast .it-body{ flex:1; font-size:.92rem; line-height:1.4; }
+.update-toast .ut-title, .ios-toast .it-title{ font-weight:600; }
+.update-toast button, .ios-toast button{ min-height:44px; min-width:44px; }
+.ios-toast ol{ margin:.35rem 0 0; padding-left:1.2rem; }
+
+/* Header share button and offline badge */
+.icon-btn[hidden], .offline-badge[hidden]{ display:none !important; }
+.offline-badge{
+  position:fixed; top:calc(8px + env(safe-area-inset-top, 0px)); right:12px; z-index:var(--z-modal);
+  background:var(--ink); color:var(--paper); font-size:.78rem; font-weight:600;
+  padding:.35rem .7rem; border-radius:var(--radius-pill);
+}
+
+/* Touch targets and focus */
+.icon-btn, .btn, .nav-link{ min-height:44px; }
+:focus-visible{ outline:3px solid var(--amber-500); outline-offset:3px; border-radius:4px; }
+html{ scroll-padding-top:5rem; }
+body{ overscroll-behavior-y:none; }
+.site-header, .back-to-top{ padding-top:max(0px, env(safe-area-inset-top, 0px)); }
+
+@media (prefers-reduced-motion: reduce){
+  .stripes span{ animation:none; }
+  .update-toast, .ios-toast{ transition:none; }
+}
+@media print{
+  .stripes, .update-toast, .ios-toast, .install-toast, .offline-badge{ display:none !important; }
+}

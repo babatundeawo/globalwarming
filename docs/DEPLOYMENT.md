@@ -1,69 +1,66 @@
-# Deployment guide
+# Deployment guide (for the site owner)
 
-This guide is for the site owner. You never need a terminal: everything is done in your web browser on github.com.
+You never type a command. You use github.com, GitHub Desktop and Windows File Explorer. A robot called **GitHub Actions** builds the site and publishes it to **GitHub Pages**.
 
 ## How it works
 
-The site's pages are written in one file, `build.py`. Every time you save a change on GitHub, a robot called **GitHub Actions** reads that file, builds all the pages, checks them, and publishes them. It also runs by itself when a student checks in and every six hours, so the class dashboard stays current. A change usually goes live within two to three minutes.
+1. You change files on your PC and push them with GitHub Desktop.
+2. GitHub Actions runs `build.py`, which writes all 27 pages, then downloads the fonts and Chart.js, checks the result, takes screenshots for the install prompt and publishes.
+3. A run usually finishes in three to five minutes. It also runs by itself when a student checks in, and once a day.
 
-## One-time setup for the new repository
+## Update the site with a pull request (safest)
 
-1. Sign in to github.com, select **+** (top right) > **New repository**.
-2. Name it exactly `globalwarming`, set it to **Public**, and select **Create repository**.
-3. On the empty repository page, select **uploading an existing file**. Drag in **everything** from the unzipped project folder, including the `.github` folder.
-   - If you cannot see `.github`: on Windows open File Explorer > View > Show > Hidden items; on a Mac press `Cmd + Shift + .` in Finder.
-   - If the upload still skips it, create each file by hand: **Add file > Create new file**, type the full path (for example `.github/workflows/deploy.yml`) as the file name, paste the contents, and commit.
-4. Select **Commit changes**.
-5. Open **Settings > Pages**. Under **Build and deployment > Source**, choose **GitHub Actions**.
-6. Open the **Actions** tab. Select **Build and deploy** and, if it has not started, **Run workflow**. Wait for a green tick.
-7. Visit `https://babatundeawo.github.io/globalwarming/`. You should see the new home page.
+1. In GitHub Desktop choose **Current Branch > New Branch**, name it `update-site`, then **Create Branch**.
+2. Change your files, or extract the ZIP over the repository folder (choose **Replace the files in the destination** when Windows asks).
+3. In GitHub Desktop, write a summary in the box bottom left, then select **Commit to update-site**.
+4. Select **Publish branch**, then **Create Pull Request**. GitHub opens in your browser.
+5. On the page, wait for the **Build and check** line to show a green tick. Open that run and download the **built-site** file under Artifacts if you want to look at it first.
+6. Select **Merge pull request**, then **Confirm merge**. The live site updates in a few minutes.
 
-**Replacing the old repository:** the new repository can only take the name `globalwarming` after the old one is renamed or deleted. In the old repository, open **Settings > General**. Either change the repository name (for example to `globalwarming-old`) or scroll to **Danger Zone > Delete this repository**. Renaming keeps a backup, so it is the safer choice. Do this before step 1 above.
+GitHub Pages has no built-in preview of a pull request. The downloadable built-site file is the closest option.
 
-## Turn on the free security protections
+## Update the site directly (small text changes)
 
-1. Open **Settings > Code security** in the repository.
-2. Switch on **Dependabot alerts** and **Dependabot security updates**.
-3. Switch on **Secret scanning** and **Push protection**. This blocks you from accidentally publishing a password or key.
-4. CodeQL (automatic code scanning) is already set up by the files in `.github/workflows`. Results appear under **Security > Code scanning**.
+1. In GitHub Desktop make sure **Current Branch** says `main`, edit the file, commit, then select **Push origin**.
+2. Open the repository on github.com, then the **Actions** tab, and wait for a green tick.
 
-## Update the content
+## First-time setup
 
-1. Open `build.py` in your repository and select the pencil icon.
-2. Use your browser's search (`Ctrl/Cmd + F`) to find the sentence you want to change, edit it, and select **Commit changes**.
-3. Open the **Actions** tab and watch the run. A green tick means the change is live.
+1. github.com > **Settings > Pages > Build and deployment > Source** > choose **GitHub Actions**.
+2. **Settings > Code security**: switch on **Dependabot alerts**, **Dependabot security updates**, **Secret scanning** and **Push protection**.
+3. Open the **Actions** tab, select **Build and deploy**, then **Run workflow**.
 
-Page text sits between quote marks inside `build.py`. Change only the words, not the quote marks or the symbols around them.
+The repository must be **Public** for Pages on the free GitHub plan.
 
-## Check whether a deployment worked
+## Check a deployment
 
-Open the **Actions** tab. The newest run is at the top.
+Open the **Actions** tab. A green tick means live, a yellow circle means running, a red cross means it failed and the live site is unchanged. Select the run, then the red step, and read the line that starts with `Error`. Yellow warnings do not stop publishing.
 
-- Green tick: live.
-- Yellow circle: still running.
-- Red cross: the build failed and the live site is unchanged. Select the run, then the red step, and read the line starting with `Error`. A message like `broken internal reference -> lesson-9.html` means a link points to a page that does not exist.
+## Roll back
 
-Warnings (shown with a yellow triangle) do not stop the site from publishing.
+1. On github.com open **Pull requests > Closed** and select the pull request you merged.
+2. Select **Revert**, then **Create pull request**, then **Merge pull request**.
+3. If you published straight to `main`, open **Code > Commits**, select the commit, then **...** > **Revert**.
 
-## Go back to an earlier version
+## Hidden folders on Windows
 
-1. Open **Code** and select the clock icon labelled **Commits**.
-2. Find the change you want to undo and select it.
-3. Select the **...** menu (top right of the change) > **Revert**, then **Create pull request**, then **Merge pull request**.
-4. The site rebuilds without that change.
+The `.github` folder starts with a dot, so Windows may hide it. In File Explorer select **View > Show > Hidden items**. If `.github` is missing after extracting, extract again and make sure the ZIP was opened with **Extract All**, not dragged out in pieces.
 
 ## Class check-ins and the dashboard
 
-Student check-ins are GitHub issues whose titles begin with `Check-in:`. Each deployment reads them and builds the class dashboard. Check-ins are public, so ask students to use a first name or initials.
+Check-ins are GitHub Issues whose titles begin with `Check-in:`. Each deployment reads them. They are public, so ask students to use a first name or initials.
 
-## Update the teacher's packet
+## Teacher's packet
 
-After changing lesson content, open **Actions > Rebuild teacher packet (manual) > Run workflow**. It regenerates the PDF in about two minutes.
+After changing lesson content open **Actions > Rebuild teacher packet (manual) > Run workflow**. It regenerates the PDF.
 
-## Connect a custom domain (optional)
+## Custom domain (optional)
 
-1. Buy a domain from a registrar.
-2. In **Settings > Pages > Custom domain**, enter it and select **Save**.
-3. At your registrar, add the DNS records GitHub lists on that page (four `A` records and one `CNAME` for `www`).
-4. Tick **Enforce HTTPS** when it becomes available.
-5. In `build.py`, change the `SITE_URL` line near the top to your new address and commit.
+1. Buy a domain. In **Settings > Pages > Custom domain** type it and select **Save**.
+2. At your registrar add the DNS records GitHub shows (four `A` records and a `CNAME` for `www`).
+3. Tick **Enforce HTTPS** when it appears. No code change is needed: the build reads the address from GitHub.
+4. Add the new address to `Allowed domains` only if you later add Firebase sign-in.
+
+## What GitHub Pages cannot do
+
+It cannot send HTTP security headers, so the Content Security Policy and referrer policy are set in each page's `<meta>` tags. Some headers (for example `X-Frame-Options` and HSTS preload settings) are not available on this host, so a header-scanner score will not be perfect.

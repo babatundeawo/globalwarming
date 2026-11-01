@@ -56,13 +56,54 @@ class Page(HTMLParser):
             self.title += data
 
 
+def check_csp(name, html):
+    """Every inline script must be allowed by hash in the page's CSP, or it will not run."""
+    import base64
+    import hashlib
+    m = re.search(r'Content-Security-Policy" content="([^"]*)"', html)
+    if not m:
+        errors.append("%s: no Content-Security-Policy meta tag" % name)
+        return
+    csp = m.group(1)
+    if "script-src" in csp and "'unsafe-inline'" in csp.split("script-src")[1].split(";")[0]:
+        warnings.append("%s: script-src allows 'unsafe-inline'" % name)
+    for body in re.findall(r"<script(?![^>]*\bsrc=)(?![^>]*type=\"application/(?:ld\+)?json\")[^>]*>(.*?)</script>", html, re.S):
+        digest = base64.b64encode(hashlib.sha256(body.encode("utf-8")).digest()).decode()
+        if "'sha256-%s'" % digest not in csp:
+            errors.append("%s: inline script not covered by CSP hash" % name)
+    if re.search(r"\son(?:click|load|change|submit|input|error)=", html):
+        errors.append("%s: inline event handler (blocked by CSP)" % name)
+
+
+def check_manifest():
+    import json
+    path = os.path.join(ROOT, "manifest.json")
+    if not os.path.exists(path):
+        errors.append("manifest.json missing")
+        return
+    m = json.load(open(path, encoding="utf-8"))
+    for key in ("name", "short_name", "id", "start_url", "scope", "display", "icons"):
+        if key not in m:
+            errors.append("manifest.json: missing %s" % key)
+    for icon in m.get("icons", []):
+        if not os.path.exists(os.path.join(ROOT, icon["src"])):
+            errors.append("manifest.json: icon not found %s" % icon["src"])
+    for shot in m.get("screenshots", []):
+        if not os.path.exists(os.path.join(ROOT, shot["src"])):
+            errors.append("manifest.json: screenshot not found %s" % shot["src"])
+    if not os.path.exists(os.path.join(ROOT, "sw.js")):
+        errors.append("sw.js was not generated")
+
+
 def main():
     files = sorted(glob.glob(os.path.join(ROOT, "*.html")))
     titles = {}
     for path in files:
         name = os.path.basename(path)
         p = Page()
-        p.feed(open(path, encoding="utf-8").read())
+        text = open(path, encoding="utf-8").read()
+        p.feed(text)
+        check_csp(name, text)
         if not p.title.strip():
             warnings.append("%s: missing <title>" % name)
         titles.setdefault(p.title.strip(), []).append(name)
@@ -83,6 +124,7 @@ def main():
     for t, names in titles.items():
         if t and len(names) > 1:
             warnings.append("duplicate title %r on: %s" % (t, ", ".join(names)))
+    check_manifest()
     print("Checked %d pages." % len(files))
     for w in warnings:
         print("::warning::" + w)

@@ -4,10 +4,14 @@
 !/offline.html
 /sitemap.xml
 /robots.txt
+/sw.js
 /_site/
+/images/photos/
+/css/fonts.css
+/css/fonts/*.woff2
+/js/vendor/*.js
 __pycache__/
 *.pyc
 .DS_Store
 Thumbs.db
 .vscode/
-/images/photos/

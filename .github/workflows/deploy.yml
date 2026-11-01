@@ -8,7 +8,7 @@ on:
   issues:
     types: [opened, edited, closed, reopened, deleted]
   schedule:
-    - cron: "17 */6 * * *"   # safety-net refresh of the class dashboard
+    - cron: "17 3 * * *"   # daily safety-net refresh of the class dashboard
   workflow_dispatch: {}
 
 permissions:
@@ -35,6 +35,10 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Work out the site address
+        id: pages
+        uses: actions/configure-pages@v5
+
       - name: Refresh the class roster from check-in issues
         continue-on-error: true   # if it fails, the last saved roster-data.json is used
         env:
@@ -46,10 +50,16 @@ jobs:
         continue-on-error: true   # if it fails, pages link to Wikimedia directly
         run: python3 scripts/fetch_images.py
 
+      - name: Download fonts and Chart.js (self-hosted for speed and privacy)
+        run: python3 scripts/fetch_assets.py   # never fails; the build falls back safely
+
       - name: Generate the pages
+        env:
+          SITE_URL: ${{ steps.pages.outputs.base_url }}
+          GITHUB_SHA: ${{ github.sha }}
         run: python3 build.py
 
-      - name: Check the site (broken links, titles, alt text)
+      - name: Check the site (links, titles, alt text, security policy, manifest)
         run: python3 scripts/check_site.py
 
       - name: Assemble the site folder
@@ -57,15 +67,30 @@ jobs:
           mkdir _site
           cp *.html manifest.json sw.js favicon.svg robots.txt sitemap.xml roster-data.json _site/
           cp -r css js images downloads _site/
-          sed -i "s/__BUILD_ID__/${GITHUB_SHA::8}/" _site/sw.js
+          touch _site/.nojekyll
 
-      - name: Lighthouse report (informational)
+      - name: Take screenshots for the install prompt
+        continue-on-error: true
+        run: |
+          pip install playwright==1.48.0
+          playwright install --with-deps chromium
+          python3 scripts/make_screenshots.py _site
+
+      - name: Lighthouse report (mobile profile, informational)
         continue-on-error: true
         uses: treosh/lighthouse-ci-action@v12
         with:
           configPath: ./lighthouserc.json
           uploadArtifacts: true
           temporaryPublicStorage: true
+
+      - name: Save the built site so a pull request can be inspected
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: built-site
+          path: _site
+          retention-days: 7
 
       - name: Upload the site
         uses: actions/upload-pages-artifact@v5

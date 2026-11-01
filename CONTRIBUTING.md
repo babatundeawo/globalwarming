@@ -23,3 +23,14 @@ python3 -m http.server        # preview at http://localhost:8000
 ```
 
 Generated `.html` files are not committed; the deploy workflow builds them.
+
+## Local development
+
+Optional, for developers only. The site owner never needs this.
+
+```text
+python3 scripts/fetch_assets.py   # downloads fonts and Chart.js (optional; the build falls back without them)
+python3 build.py                  # generates every page, the manifest and sw.js
+python3 scripts/check_site.py     # links, titles, alt text, CSP hashes, manifest
+python3 -m http.server -d .       # then open http://localhost:8000/
+```
