@@ -87,7 +87,7 @@ body, .site-header, .card, .tool-panel, .quiz-card, .quiz-opt, .callout, .fact,
 
 /* --- reset --- */
 *,*::before,*::after{ box-sizing:border-box; }
-html{ scroll-behavior:smooth; overflow-x:hidden; max-width:100%; -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+html{ scroll-behavior:smooth; overflow-x:clip; max-width:100%; -webkit-text-size-adjust:100%; text-size-adjust:100%; }
 body{
   margin:0;
   background:var(--paper);
@@ -96,7 +96,7 @@ body{
   font-size:16.5px;
   line-height:1.6;
   -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
+  overflow-x:clip; /* clip, not hidden: hidden makes body a scroll container that swallows wheel/touch scrolling */
   max-width:100%;
   padding-top:68px;
 }
